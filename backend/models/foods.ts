@@ -16,7 +16,7 @@ const pool = new Pool({
   host: config.DB_HOST,
   database: config.DB_NAME,
   password: config.DB_PASSWORD,
-  port: parseInt(config.DB_PORT),
+  port: config.DB_PORT,
 });
 
 /*
@@ -35,14 +35,10 @@ const getAll = () =>
 
 const getById = (id: number) =>
   new Promise((resolve, reject) => {
-    pool.query(
-      'SELECT * FROM foods WHERE id = $1 LIMIT 1',
-      [id],
-      (error: any, result: any) => {
-        if (error) reject(error);
-        else resolve(result.rows[0]);
-      }
-    );
+    pool.query('SELECT * FROM foods WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
+      if (error) reject(error);
+      else resolve(result.rows[0]);
+    });
   });
 
 const add = (food: Food) =>
@@ -88,14 +84,10 @@ const update = (food: Food) =>
 
 const deleteById = (id: number) =>
   new Promise((resolve, reject) => {
-    pool.query(
-      'DELETE FROM foods WHERE id = $1',
-      [id],
-      (error: any, result: any) => {
-        if (error) reject(error);
-        else resolve(result.rows);
-      }
-    );
+    pool.query('DELETE FROM foods WHERE id = $1', [id], (error: any, result: any) => {
+      if (error) reject(error);
+      else resolve(result.rows);
+    });
   });
 
 /*
