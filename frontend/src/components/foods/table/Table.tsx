@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './Table.scss';
 import { useEffect, useState } from 'react';
-import * as foodsService from '../../../services/foods';
-import { Food } from '../../../data_types';
+import * as foodsService from 'services/foods';
+import { Food } from 'data_types';
 import Item from './Item';
 
 export default function FoodsTable() {

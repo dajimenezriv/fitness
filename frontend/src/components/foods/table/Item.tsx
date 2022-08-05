@@ -1,6 +1,6 @@
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { Food } from '../../../data_types';
+import { Food } from 'data_types';
 
 export default function Item({ food }: { food: Food }) {
   return (
