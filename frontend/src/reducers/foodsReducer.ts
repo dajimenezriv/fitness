@@ -30,9 +30,18 @@ export const refresh = (): ThunkAction<void, RootState, unknown, AnyAction> => a
   }
 };
 
-export const addFood = (food: Food): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+export const add = (food: Food): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     await foodsService.add(food);
+    dispatch(refresh());
+  } catch (err: any) {
+    toast.error(err.response.data);
+  }
+};
+
+export const deleteById = (id: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+  try {
+    await foodsService.deleteById(id);
     dispatch(refresh());
   } catch (err: any) {
     toast.error(err.response.data);
