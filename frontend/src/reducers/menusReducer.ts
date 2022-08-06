@@ -2,37 +2,37 @@
 import {
   AnyAction, createSlice, ThunkAction,
 } from '@reduxjs/toolkit';
-import * as foodsService from 'services/foods';
-import { FoodType } from 'data_types';
+import * as menusService from 'services/menus';
+import { MenuType } from 'data_types';
 import { RootState } from 'store';
 import { toast } from 'react-toastify';
 
 const slice = createSlice({
-  name: 'foods',
-  initialState: { foods: [] },
+  name: 'menus',
+  initialState: { menus: [] },
   reducers: {
-    setFoods(state, { payload }) {
-      const foods = payload;
-      return { ...state, foods };
+    setMenus(state, { payload }) {
+      const menus = payload;
+      return { ...state, menus };
     },
   },
 });
 
-export const { setFoods } = slice.actions;
+export const { setMenus } = slice.actions;
 export default slice.reducer;
 
 export const refresh = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    const res = await foodsService.getAll();
-    dispatch(setFoods(res.data));
+    const res = await menusService.getAll();
+    dispatch(setMenus(res.data));
   } catch (err: any) {
     toast.error(err.response.data);
   }
 };
 
-export const add = (food: FoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+export const add = (menu: MenuType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await foodsService.add(food);
+    await menusService.add(menu);
     dispatch(refresh());
   } catch (err: any) {
     toast.error(err.response.data);
@@ -41,7 +41,7 @@ export const add = (food: FoodType): ThunkAction<void, RootState, unknown, AnyAc
 
 export const deleteById = (id: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await foodsService.deleteById(id);
+    await menusService.deleteById(id);
     dispatch(refresh());
   } catch (err: any) {
     toast.error(err.response.data);

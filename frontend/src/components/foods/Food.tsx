@@ -1,6 +1,6 @@
 // logic
 import { useAppDispatch } from 'hooks/reducer';
-import { Food } from 'data_types';
+import { FoodType } from 'data_types';
 import * as foodsReducer from 'reducers/foodsReducer';
 
 // gui
@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Item({ food }: { food: Food }) {
+export default function Food({ food }: { food: FoodType }) {
   const dispatch = useAppDispatch();
 
   return (

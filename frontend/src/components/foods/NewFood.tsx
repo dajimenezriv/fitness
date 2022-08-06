@@ -1,7 +1,7 @@
 // logic
 import { useState } from 'react';
 import { useAppDispatch } from 'hooks/reducer';
-import { Food } from 'data_types';
+import { FoodType } from 'data_types';
 import * as foodsReducer from 'reducers/foodsReducer';
 
 // gui
@@ -9,8 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-export default function NewItem() {
-  const [food, setFood] = useState<Food>({
+export default function NewFood() {
+  const [food, setFood] = useState<FoodType>({
     id: -1,
     name: '',
     market: '',
@@ -22,7 +22,7 @@ export default function NewItem() {
   const dispatch = useAppDispatch();
 
   return (
-    <TableRow className="NewItem" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+    <TableRow className="NewFood" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell className="Actions">
         <AddCircleIcon onClick={() => dispatch(foodsReducer.add(food))} />
       </TableCell>

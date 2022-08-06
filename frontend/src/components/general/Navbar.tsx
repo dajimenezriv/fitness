@@ -1,5 +1,6 @@
 // logic
 import { useState, MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 
 // gui
 import AppBar from '@mui/material/AppBar';
@@ -17,7 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = { Alimentos: 'foods', Menus: 'menus' };
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function Navbar() {
@@ -101,9 +102,11 @@ export default function Navbar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                {Object.entries(pages).map(([title, url]) => (
+                  <MenuItem key={url} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <Link to={`/${url}`}>{title}</Link>
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -128,9 +131,9 @@ export default function Navbar() {
               LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-                  {page}
+              {Object.entries(pages).map(([title, url]) => (
+                <Button key={url} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
+                  <Link to={`/${url}`}>{title}</Link>
                 </Button>
               ))}
             </Box>

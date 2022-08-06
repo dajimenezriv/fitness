@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import foodsReducer from 'reducers/foodsReducer';
+import menusReducer from 'reducers/menusReducer';
 
 const store = configureStore({
   reducer: {
     foods: foodsReducer,
+    menus: menusReducer,
   },
 });
 

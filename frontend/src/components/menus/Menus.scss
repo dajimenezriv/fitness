@@ -17,26 +17,4 @@
     color: #2b2b2b;
     cursor: pointer;
   }
-
-  .NewItem {
-    // cell
-    .MuiTableCell-root {
-      padding: 0;
-
-      // left buttons cell
-      &.Actions {
-        padding: 8px 16px;
-      }
-    }
-
-    input {
-      width: 80%;
-      padding: 8px 16px;
-      border: 0;
-
-      &:focus {
-        outline: none;
-      }
-    }
-  }
 }

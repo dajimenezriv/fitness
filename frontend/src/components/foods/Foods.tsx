@@ -1,8 +1,8 @@
 // logic
 import { useEffect } from 'react';
-import { refresh } from 'reducers/foodsReducer';
+import * as foodsReducer from 'reducers/foodsReducer';
 import { useAppDispatch, useAppSelector } from 'hooks/reducer';
-import { Food } from 'data_types';
+import { FoodType } from 'data_types';
 
 // gui
 import Table from '@mui/material/Table';
@@ -14,18 +14,18 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 // components
-import Item from './Item';
-import NewItem from './NewItem';
+import Food from './Food';
+import NewFood from './NewFood';
 
 // styles
-import './Table.scss';
+import './Foods.scss';
 
-export default function FoodsTable() {
+export default function Foods() {
   const dispatch = useAppDispatch();
-  const { foods }: { foods: Food[] } = useAppSelector((state) => state.foods);
+  const { foods }: { foods: FoodType[] } = useAppSelector((state) => state.foods);
 
   useEffect(() => {
-    dispatch(refresh());
+    dispatch(foodsReducer.refresh());
   }, []);
 
   return (
@@ -43,9 +43,9 @@ export default function FoodsTable() {
         </TableHead>
         <TableBody>
           {foods.map((food) => (
-            <Item key={food.id} food={food} />
+            <Food key={food.id} food={food} />
           ))}
-          <NewItem />
+          <NewFood />
         </TableBody>
       </Table>
     </TableContainer>
