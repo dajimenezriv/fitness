@@ -39,6 +39,7 @@ module.exports = {
       },
     ],
     'import/no-unresolved': 'off',
+    'max-len': ['error', { code: 140 }],
   },
   settings: {
     'import/resolver': {

@@ -1,6 +1,13 @@
+// logic
+
+// gui
+
+// components
 import Navbar from './components/general/Navbar';
-import './App.css';
 import Table from './components/foods/table/Table';
+
+// styles
+import './App.css';
 
 function App() {
   return (

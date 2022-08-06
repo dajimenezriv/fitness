@@ -1,3 +1,10 @@
+// logic
+import { useEffect } from 'react';
+import { refresh } from 'reducers/foodsReducer';
+import { useAppDispatch, useAppSelector } from 'hooks/reducer';
+import { Food } from 'data_types';
+
+// gui
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -5,24 +12,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import './Table.scss';
-import { useEffect, useState } from 'react';
-import * as foodsService from 'services/foods';
-import { Food } from 'data_types';
+
+// components
 import Item from './Item';
+import NewItem from './NewItem';
+
+// styles
+import './Table.scss';
 
 export default function FoodsTable() {
-  const [foods, setFoods] = useState<Food[] | []>([]);
+  const dispatch = useAppDispatch();
+  const { foods }: { foods: Food[] } = useAppSelector((state) => state.foods);
 
   useEffect(() => {
-    foodsService.getAll().then((res) => setFoods(res.data));
+    dispatch(refresh());
   }, []);
 
   return (
-    <TableContainer className="Table" component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+    <TableContainer component={Paper}>
+      <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell />
             <TableCell>Alimentos (cada 100g)</TableCell>
             <TableCell align="right">Calories</TableCell>
             <TableCell align="right">Fat (g)</TableCell>
@@ -34,6 +45,7 @@ export default function FoodsTable() {
           {foods.map((food) => (
             <Item key={food.id} food={food} />
           ))}
+          <NewItem />
         </TableBody>
       </Table>
     </TableContainer>
