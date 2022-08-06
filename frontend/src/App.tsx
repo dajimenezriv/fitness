@@ -1,6 +1,7 @@
 // logic
 
 // gui
+import { ToastContainer } from 'react-toastify';
 
 // components
 import Navbar from './components/general/Navbar';
@@ -12,6 +13,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      <ToastContainer />
       <Navbar />
       <Table />
     </div>

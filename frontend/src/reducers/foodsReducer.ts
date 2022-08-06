@@ -1,9 +1,11 @@
+// logic
 import {
-  AnyAction, createSlice, Dispatch, ThunkAction,
+  AnyAction, createSlice, ThunkAction,
 } from '@reduxjs/toolkit';
 import * as foodsService from 'services/foods';
 import { Food } from 'data_types';
 import { RootState } from 'store';
+import { toast } from 'react-toastify';
 
 const slice = createSlice({
   name: 'foods',
@@ -19,12 +21,12 @@ const slice = createSlice({
 export const { setFoods } = slice.actions;
 export default slice.reducer;
 
-export const refresh = () => async (dispatch: Dispatch) => {
+export const refresh = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     const res = await foodsService.getAll();
     dispatch(setFoods(res.data));
   } catch (err: any) {
-    console.log(err.response.data);
+    toast.error(err.response.data);
   }
 };
 
@@ -33,6 +35,6 @@ export const addFood = (food: Food): ThunkAction<void, RootState, unknown, AnyAc
     await foodsService.add(food);
     dispatch(refresh());
   } catch (err: any) {
-    console.log(err.response.data);
+    toast.error(err.response.data);
   }
 };
