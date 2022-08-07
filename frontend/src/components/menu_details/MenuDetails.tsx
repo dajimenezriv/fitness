@@ -1,8 +1,8 @@
 // logic
-import { useEffect } from 'react';
-import * as menusReducer from 'reducers/menusReducer';
 import { useAppDispatch, useAppSelector } from 'hooks/reducer';
-import { MenuType } from 'data_types';
+import { useParams } from 'react-router-dom';
+import * as menusReducer from 'reducers/menusReducer';
+import * as menuFoodsReducer from 'reducers/menuFoodsReducer';
 
 // gui
 import Table from '@mui/material/Table';
@@ -14,19 +14,31 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 // components
-import Menu from './Menu';
-import NewMenu from './NewMenu';
 
 // styles
-import './Menus.scss';
+import './MenuDetails.scss';
+import { MenuFoodType, MenuType } from 'data_types';
+import { useEffect } from 'react';
 
-export default function Menus() {
+export default function MenuDetails() {
+  const params = useParams();
   const dispatch = useAppDispatch();
+
+  // change this
   const { menus }: { menus: MenuType[] } = useAppSelector((state) => state.menus);
+  const menuId = params.id ? parseInt(params.id, 10) : -1;
+  const menu = menus.find((m) => m.id === menuId);
+
+  const { menuFoods }: { menuFoods: MenuFoodType[] } = useAppSelector((state) => state.menuFoods);
+
+  console.log(menuFoods);
 
   useEffect(() => {
     dispatch(menusReducer.getAll());
+    dispatch(menuFoodsReducer.getByMenuId(menuId));
   }, []);
+
+  console.log(menu);
 
   return (
     <TableContainer component={Paper}>
@@ -38,12 +50,7 @@ export default function Menus() {
             <TableCell>Número de Comidas</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {menus.map((menu) => (
-            <Menu key={menu.id} menu={menu} />
-          ))}
-          <NewMenu />
-        </TableBody>
+        <TableBody />
       </Table>
     </TableContainer>
   );

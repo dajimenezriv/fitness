@@ -3,10 +3,12 @@ export {};
 const { Pool } = require('pg');
 const config = require('../utils/config');
 
-type Menu = {
+type MenuFood = {
   id: number;
-  name: string;
-  numberOfMeals: number;
+  menuId: number;
+  foodId: number;
+  quantity: number;
+  mealNumber: number;
 };
 
 const pool = new Pool({
@@ -23,32 +25,32 @@ const pool = new Pool({
  *
  */
 
-const getAll = () =>
-  new Promise((resolve, reject) => {
-    pool.query('SELECT * FROM menus', (error: any, result: any) => {
-      if (error) reject(error);
-      else resolve(result.rows);
-    });
-  });
-
 const getById = (id: number) =>
   new Promise((resolve, reject) => {
-    pool.query('SELECT * FROM menus WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
+    pool.query('SELECT * FROM menu_foods WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows[0]);
     });
   });
 
-const add = (menu: Menu) =>
+const getByMenuId = (menuId: number) =>
+  new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM menu_foods WHERE menu_id = $1', [menuId], (error: any, result: any) => {
+      if (error) reject(error);
+      else resolve(result.rows);
+    });
+  });
+
+const add = (menuFood: MenuFood) =>
   new Promise((resolve, reject) => {
     try {
-      const { name, numberOfMeals } = menu;
+      const { menuId, foodId, quantity, mealNumber } = menuFood;
 
       pool.query(
-        `INSERT INTO menus 
-      (name, number_of_meals)
-      VALUES ($1, $2) RETURNING *`,
-        [name, numberOfMeals],
+        `INSERT INTO menu_foods
+      (menu_id, food_id, quantity, meal_number)
+      VALUES ($1, $2, $3, $4) RETURNING *`,
+        [menuId, foodId, quantity, mealNumber],
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
@@ -59,17 +61,17 @@ const add = (menu: Menu) =>
     }
   });
 
-const update = (menu: Menu) =>
+const update = (menuFood: MenuFood) =>
   new Promise((resolve, reject) => {
     try {
-      const { id, name, numberOfMeals } = menu;
+      const { id, quantity, mealNumber } = menuFood;
 
       pool.query(
-        `UPDATE menus
-      SET name=$2, number_of_meals=$3
+        `UPDATE menu_foods
+      SET quantity=$2, meal_number=$3
       WHERE id=$1
       RETURNING *`,
-        [id, name, numberOfMeals],
+        [id, quantity, mealNumber],
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
@@ -82,31 +84,16 @@ const update = (menu: Menu) =>
 
 const deleteById = (id: number) =>
   new Promise((resolve, reject) => {
-    pool.query('DELETE FROM menus WHERE id = $1', [id], (error: any, result: any) => {
-      if (error) reject(error);
-      else resolve(result.rows);
-    });
-  });
-
-/*
- *
- * TESTING
- *
- */
-
-const deleteAll = () =>
-  new Promise((resolve, reject) => {
-    pool.query('TRUNCATE TABLE menus, menu_foods', (error: any, result: any) => {
+    pool.query('DELETE FROM menu_foods WHERE id = $1', [id], (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows);
     });
   });
 
 module.exports = {
-  getAll,
   getById,
+  getByMenuId,
   add,
   update,
   deleteById,
-  deleteAll,
 };

@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import Navbar from 'components/general/Navbar';
 import Foods from 'components/foods/Foods';
 import Menus from 'components/menus/Menus';
+import MenuDetail from 'components/menu_details/MenuDetails';
 
 // styles
 import './App.css';
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/foods" element={<Foods />} />
           <Route path="/menus" element={<Menus />} />
+          <Route path="/menus/:id" element={<MenuDetail />} />
           <Route path="*" element={<Navigate to="/foods" />} />
         </Routes>
       </Router>
