@@ -1,7 +1,7 @@
 // logic
 import { useAppDispatch } from 'hooks/reducer';
 import { MenuType } from 'data_types';
-import * as menusReducer from 'reducers/foodsReducer';
+import * as menusReducer from 'reducers/menusReducer';
 
 // gui
 import TableRow from '@mui/material/TableRow';
@@ -19,6 +19,7 @@ export default function Menu({ menu }: { menu: MenuType }) {
       <TableCell component="th" scope="row">
         {menu.name}
       </TableCell>
+      <TableCell align="right">{menu.numberOfMeals}</TableCell>
     </TableRow>
   );
 }

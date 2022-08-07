@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 
 // components
 import Menu from './Menu';
+import NewMenu from './NewMenu';
 
 // styles
 import './Menus.scss';
@@ -34,12 +35,14 @@ export default function FoodsTable() {
           <TableRow>
             <TableCell />
             <TableCell>Nombre</TableCell>
+            <TableCell>Número de Comidas</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {menus.map((menu) => (
             <Menu key={menu.id} menu={menu} />
           ))}
+          <NewMenu />
         </TableBody>
       </Table>
     </TableContainer>
