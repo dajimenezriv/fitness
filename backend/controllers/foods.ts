@@ -2,6 +2,7 @@ import * as express from 'express';
 
 export {};
 
+const humps = require('humps');
 const config = require('../utils/config');
 const foods = require('../models/foods');
 
@@ -17,7 +18,7 @@ const router = express.Router();
 router.get('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await foods.getAll();
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -28,7 +29,7 @@ router.get('/:id', async (request: express.Request, response: express.Response) 
   try {
     const id = parseInt(request.params.id, 10);
     const res = await foods.getById(id);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -38,7 +39,7 @@ router.get('/:id', async (request: express.Request, response: express.Response) 
 router.post('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await foods.add(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -48,7 +49,7 @@ router.post('/', async (request: express.Request, response: express.Response) =>
 router.put('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await foods.update(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -59,7 +60,7 @@ router.delete('/:id', async (request: express.Request, response: express.Respons
   try {
     const id = parseInt(request.params.id, 10);
     const res = await foods.deleteById(id);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -76,7 +77,7 @@ if (config.MODE === 'testing') {
   router.delete('/', async (request: express.Request, response: express.Response) => {
     try {
       const res = await foods.deleteAll();
-      response.status(200).send(res);
+      response.status(200).send(humps.camelizeKeys(res));
     } catch (err) {
       response.status(500).send(err);
     }

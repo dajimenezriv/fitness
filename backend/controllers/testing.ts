@@ -2,14 +2,15 @@ import * as express from 'express';
 
 export {};
 
-const foods = require('../models/foods');
-const menus = require('../models/menus');
 const menuFoods = require('../models/menuFoods');
+const menus = require('../models/menus');
+const foods = require('../models/foods');
 
 const router = express.Router();
 
 router.get('/', async (request: express.Request, response: express.Response) => {
   try {
+    menuFoods.deleteAll();
     menus.deleteAll();
     foods.deleteAll();
     const menu1 = await menus.add({ name: 'Déficit', numberOfMeals: 3 });

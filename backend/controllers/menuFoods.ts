@@ -2,6 +2,8 @@ import * as express from 'express';
 
 export {};
 
+const humps = require('humps');
+const config = require('../utils/config');
 const menuFoods = require('../models/menuFoods');
 
 const router = express.Router();
@@ -17,7 +19,7 @@ router.get('/:menuId/foods', async (request: express.Request, response: express.
   try {
     const menuId = parseInt(request.params.menuId, 10);
     const res = await menuFoods.getByMenuId(menuId);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -28,7 +30,7 @@ router.get('/:menuId/foods/:id', async (request: express.Request, response: expr
   try {
     const id = parseInt(request.params.id, 10);
     const res = await menuFoods.getById(id);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -38,7 +40,7 @@ router.get('/:menuId/foods/:id', async (request: express.Request, response: expr
 router.post('/:menuId/foods', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menuFoods.add(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -48,7 +50,7 @@ router.post('/:menuId/foods', async (request: express.Request, response: express
 router.put('/:menuId/foods', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menuFoods.update(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -59,10 +61,28 @@ router.delete('/:menuId/foods/:id', async (request: express.Request, response: e
   try {
     const id = parseInt(request.params.id, 10);
     const res = await menuFoods.deleteById(id);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
 });
+
+/*
+ *
+ * TESTING
+ *
+ */
+
+if (config.MODE === 'testing') {
+  // delete all food
+  router.delete('/', async (request: express.Request, response: express.Response) => {
+    try {
+      const res = await menuFoods.deleteAll();
+      response.status(200).send(humps.camelizeKeys(res));
+    } catch (err) {
+      response.status(500).send(err);
+    }
+  });
+}
 
 module.exports = router;

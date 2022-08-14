@@ -2,6 +2,7 @@ import * as express from 'express';
 
 export {};
 
+const humps = require('humps');
 const config = require('../utils/config');
 const menus = require('../models/menus');
 
@@ -17,7 +18,7 @@ const router = express.Router();
 router.get('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menus.getAll();
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -28,7 +29,7 @@ router.get('/:id', async (request: express.Request, response: express.Response) 
   try {
     const id = parseInt(request.params.id, 10);
     const res = await menus.getById(id);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -38,7 +39,7 @@ router.get('/:id', async (request: express.Request, response: express.Response) 
 router.post('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menus.add(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -48,7 +49,7 @@ router.post('/', async (request: express.Request, response: express.Response) =>
 router.post('/:id', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menus.addFood(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -58,7 +59,7 @@ router.post('/:id', async (request: express.Request, response: express.Response)
 router.put('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menus.update(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -68,7 +69,7 @@ router.put('/', async (request: express.Request, response: express.Response) => 
 router.put('/:id', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menus.updateFood(request.body);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -79,7 +80,7 @@ router.delete('/:id', async (request: express.Request, response: express.Respons
   try {
     const id = parseInt(request.params.id, 10);
     const res = await menus.deleteById(id);
-    response.status(200).send(res);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
@@ -96,7 +97,7 @@ if (config.MODE === 'testing') {
   router.delete('/', async (request: express.Request, response: express.Response) => {
     try {
       const res = await menus.deleteAll();
-      response.status(200).send(res);
+      response.status(200).send(humps.camelizeKeys(res));
     } catch (err) {
       response.status(500).send(err);
     }
