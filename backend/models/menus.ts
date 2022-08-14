@@ -46,7 +46,7 @@ const add = (menu: Menu) =>
 
       pool.query(
         `INSERT INTO menus 
-      (name, numberOfMeals)
+      (name, number_of_meals)
       VALUES ($1, $2) RETURNING *`,
         [name, numberOfMeals],
         (error: any, result: any) => {
@@ -96,7 +96,7 @@ const deleteById = (id: number) =>
 
 const deleteAll = () =>
   new Promise((resolve, reject) => {
-    pool.query('TRUNCATE TABLE menus', (error: any, result: any) => {
+    pool.query('DELETE FROM menus', (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows);
     });

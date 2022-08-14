@@ -98,7 +98,7 @@ const deleteById = (id: number) =>
 
 const deleteAll = () =>
   new Promise((resolve, reject) => {
-    pool.query('TRUNCATE TABLE menu_foods', (error: any, result: any) => {
+    pool.query('DELETE FROM menu_foods', (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows);
     });

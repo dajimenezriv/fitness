@@ -22,7 +22,6 @@ router.get('/', async (request: express.Request, response: express.Response) => 
     const menuFood3 = await menuFoods.add({ menuId: menu1.id, foodId: food2.id, quantity: 150, mealNumber: 0 });
     response.status(200).send();
   } catch (err) {
-    console.log(err);
     response.status(500).send(err);
   }
 });

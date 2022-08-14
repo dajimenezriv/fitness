@@ -31,19 +31,19 @@ export const getByMenuId = (menuId: number): ThunkAction<void, RootState, unknow
   }
 };
 
-export const add = (menu: MenuFoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+export const add = (menuFood: MenuFoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await menuFoodsService.add(menu.id, menu);
-    dispatch(getByMenuId(menu.id));
+    await menuFoodsService.add(menuFood.menuId, menuFood);
+    dispatch(getByMenuId(menuFood.menuId));
   } catch (err: any) {
     toast.error(err.response.data);
   }
 };
 
-export const deleteById = (menuId: number, id: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+export const deleteById = (menuFood: MenuFoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await menuFoodsService.deleteById(menuId, id);
-    dispatch(getByMenuId(menuId));
+    await menuFoodsService.deleteById(menuFood.menuId, menuFood.id);
+    dispatch(getByMenuId(menuFood.menuId));
   } catch (err: any) {
     toast.error(err.response.data);
   }

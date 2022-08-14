@@ -18,7 +18,8 @@ import Paper from '@mui/material/Paper';
 // styles
 import './MenuDetails.scss';
 import { MenuFoodType, MenuType } from 'data_types';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import MenuFood from './MenuFood';
 
 export default function MenuDetails() {
   const params = useParams();
@@ -31,26 +32,42 @@ export default function MenuDetails() {
 
   const { menuFoods }: { menuFoods: MenuFoodType[] } = useAppSelector((state) => state.menuFoods);
 
-  console.log(menuFoods);
-
   useEffect(() => {
     dispatch(menusReducer.getAll());
     dispatch(menuFoodsReducer.getByMenuId(menuId));
   }, []);
 
-  console.log(menu);
+  if (!menu) return null;
+
+  const meals = [];
+  for (let meal = 0; meal < menu.numberOfMeals; meal++) {
+    const foods = menuFoods.filter((menuFood) => menuFood.mealNumber === meal);
+    meals.push(
+      <React.Fragment key={`Meal-${meal}`}>
+        <TableRow>
+          <TableCell colSpan={3}>{`Meal ${meal}`}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell />
+          <TableCell>Alimento</TableCell>
+          <TableCell>Cantidad</TableCell>
+        </TableRow>
+        {foods.map((menuFood) => (
+          <MenuFood key={menuFood.id} menuFood={menuFood} />
+        ))}
+      </React.Fragment>,
+    );
+  }
 
   return (
     <TableContainer component={Paper}>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell>Nombre</TableCell>
-            <TableCell>Número de Comidas</TableCell>
+            <TableCell>{menu.name}</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody />
+        <TableBody>{meals}</TableBody>
       </Table>
     </TableContainer>
   );
