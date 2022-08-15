@@ -1,3 +1,6 @@
+/* eslint object-curly-newline: off */
+/* eslint no-unused-vars: off */
+
 import * as express from 'express';
 
 export {};
