@@ -24,6 +24,7 @@ module.exports = {
     'react-hooks',
     '@typescript-eslint',
     'prettier',
+    'cypress',
   ],
   rules: {
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
