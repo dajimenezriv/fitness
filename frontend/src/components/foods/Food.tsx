@@ -8,7 +8,17 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Food({ food }: { food: FoodType }) {
+type params = {
+  food: FoodType;
+  fields: {
+    calories: string;
+    fats: string;
+    carbs: string;
+    proteins: string;
+  };
+};
+
+export default function Food({ food, fields }: params) {
   const dispatch = useAppDispatch();
 
   return (
@@ -19,10 +29,11 @@ export default function Food({ food }: { food: FoodType }) {
       <TableCell component="th" scope="row">
         {food.name}
       </TableCell>
-      <TableCell align="right">2</TableCell>
-      <TableCell align="right">{food.fats}</TableCell>
-      <TableCell align="right">{food.carbs}</TableCell>
-      <TableCell align="right">{food.proteins}</TableCell>
+      {Object.keys(fields).map((field) => (
+        <TableCell key={`${field}-${food.id}`} align="right">
+          {food[field as keyof FoodType]}
+        </TableCell>
+      ))}
     </TableRow>
   );
 }

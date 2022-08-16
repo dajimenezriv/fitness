@@ -2,6 +2,7 @@ export type FoodType = {
   id: number;
   name: string;
   market: string;
+  calories: number;
   carbs: number;
   proteins: number;
   fats: number;

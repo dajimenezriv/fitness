@@ -24,10 +24,22 @@ import NewFood from './NewFood';
 // styles
 import './Foods.scss';
 
+const fields = {
+  calories: 'Calorías (kcal)',
+  fats: 'Grasas (g)',
+  carbs: 'Carbohidratos (g)',
+  proteins: 'Proteínas (g)',
+};
+
+type stateTypes = {
+  processing: boolean;
+  foods: FoodType[];
+};
+
 export default function Foods() {
   const dispatch = useAppDispatch();
 
-  const { processing, foods }: { processing: boolean; foods: FoodType[] } = useAppSelector((state) => state.foods);
+  const { processing, foods }: stateTypes = useAppSelector((state) => state.foods);
 
   const actions = [{ label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.resetDatabase()) }];
 
@@ -43,17 +55,18 @@ export default function Foods() {
             <TableRow>
               <TableCell />
               <TableCell>Alimentos (cada 100g)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat (g)</TableCell>
-              <TableCell align="right">Carbs (g)</TableCell>
-              <TableCell align="right">Protein (g)</TableCell>
+              {Object.values(fields).map((field) => (
+                <TableCell key={field} align="right">
+                  {field}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {foods.map((food) => (
-              <Food key={food.id} food={food} />
+              <Food key={food.id} food={food} fields={fields} />
             ))}
-            <NewFood />
+            <NewFood fields={fields} />
           </TableBody>
         </Table>
       </TableContainer>

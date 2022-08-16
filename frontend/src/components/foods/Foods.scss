@@ -38,5 +38,16 @@
         outline: none;
       }
     }
+
+    input[type='number'] {
+      text-align: right;
+      -moz-appearance: textfield; /* Firefox */
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 }

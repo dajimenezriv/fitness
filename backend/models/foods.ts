@@ -6,6 +6,7 @@ type Food = {
   id: number;
   name: string;
   market: string;
+  calories: number,
   carbs: number;
   proteins: number;
   fats: number;
@@ -44,13 +45,13 @@ const getById = (id: number) =>
 const add = (food: Food) =>
   new Promise((resolve, reject) => {
     try {
-      const { name, market, carbs, proteins, fats } = food;
+      const { name, market, calories, carbs, proteins, fats } = food;
 
       pool.query(
         `INSERT INTO foods 
-      (name, market, carbs, proteins, fats)
-      VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-        [name, market, carbs, proteins, fats],
+      (name, market, calories, carbs, proteins, fats)
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+        [name, market, calories, carbs, proteins, fats],
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
@@ -64,14 +65,14 @@ const add = (food: Food) =>
 const update = (food: Food) =>
   new Promise((resolve, reject) => {
     try {
-      const { id, name, market, carbs, proteins, fats } = food;
+      const { id, name, market, calories, carbs, proteins, fats } = food;
 
       pool.query(
         `UPDATE foods
-      SET name=$2, market=$3, carbs=$4, proteins=$5, fats=$6
+      SET name=$2, market=$3, calories=$4, carbs=$5, proteins=$6, fats=$7
       WHERE id=$1
       RETURNING *`,
-        [id, name, market, carbs, proteins, fats],
+        [id, name, market, calories, carbs, proteins, fats],
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
