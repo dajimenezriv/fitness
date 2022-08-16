@@ -20,4 +20,12 @@ export type MenuFoodType = {
   foodId: number;
   quantity: number;
   mealNumber: number;
+
+  // same as food type
+  name: string;
+  market: string;
+  calories: number;
+  carbs: number;
+  proteins: number;
+  fats: number;
 };

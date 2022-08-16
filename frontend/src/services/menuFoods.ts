@@ -2,10 +2,10 @@ import axios from 'axios';
 import { MenuFoodType } from 'data_types';
 import baseUrl from './helper';
 
-const url = `${baseUrl}/menus`;
+const url = `${baseUrl}/menu_foods`;
 
-export const getByMenuId = (menuId: number) => axios.get(`${url}/${menuId}/foods`);
-export const getById = (menuId: number, id: number) => axios.get(`${url}/${menuId}/foods/${id}`);
-export const add = (menuId: number, menuFood: MenuFoodType) => axios.post(`${url}/${menuId}/foods`, menuFood);
-export const update = (menuId: number, menuFood: MenuFoodType) => axios.put(`${url}/${menuId}/foods`, menuFood);
-export const deleteById = (menuId: number, id: number) => axios.delete(`${url}/${menuId}/foods/${id}`);
+export const getByMenuId = (menuId: number) => axios.get(`${url}/?menu_id=${menuId}`);
+export const getById = (id: number) => axios.get(`${url}/${id}`);
+export const add = (menuFood: MenuFoodType) => axios.post(url, menuFood);
+export const update = (menuFood: MenuFoodType) => axios.put(url, menuFood);
+export const deleteById = (id: number) => axios.delete(`${url}/${id}`);

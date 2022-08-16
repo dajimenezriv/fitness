@@ -8,7 +8,18 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function MenuFood({ menuFood }: { menuFood: MenuFoodType }) {
+type params = {
+  menuFood: MenuFoodType;
+  fields: {
+    quantity: string;
+    calories: string;
+    fats: string;
+    carbs: string;
+    proteins: string;
+  };
+};
+
+export default function MenuFood({ menuFood, fields }: params) {
   const dispatch = useAppDispatch();
 
   return (
@@ -17,9 +28,13 @@ export default function MenuFood({ menuFood }: { menuFood: MenuFoodType }) {
         <DeleteIcon onClick={() => dispatch(menuFoodsReducer.deleteById(menuFood))} />
       </TableCell>
       <TableCell component="th" scope="row">
-        {menuFood.foodId}
+        {menuFood.name}
       </TableCell>
-      <TableCell align="right">{menuFood.quantity}</TableCell>
+      {Object.keys(fields).map((field) => (
+        <TableCell key={`${field}-${menuFood.id}`} align="right">
+          {menuFood[field as keyof MenuFoodType]}
+        </TableCell>
+      ))}
     </TableRow>
   );
 }

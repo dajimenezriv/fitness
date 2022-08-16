@@ -9,8 +9,12 @@ import { toast } from 'react-toastify';
 
 const slice = createSlice({
   name: 'menuFoods',
-  initialState: { menuFoods: [] as MenuFoodType[] },
+  initialState: { processing: false, menuFoods: [] as MenuFoodType[] },
   reducers: {
+    setProcessing(state, { payload }) {
+      const processing = payload;
+      return { ...state, processing };
+    },
     setMenuFoods(state, { payload }) {
       const menuFoods = payload;
       return { ...state, menuFoods };
@@ -26,14 +30,13 @@ export const getByMenuId = (menuId: number): ThunkAction<void, RootState, unknow
     const res = await menuFoodsService.getByMenuId(menuId);
     dispatch(setMenuFoods(res.data));
   } catch (err: any) {
-    console.log(err);
     toast.error(err.response.data);
   }
 };
 
 export const add = (menuFood: MenuFoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await menuFoodsService.add(menuFood.menuId, menuFood);
+    await menuFoodsService.add(menuFood);
     dispatch(getByMenuId(menuFood.menuId));
   } catch (err: any) {
     toast.error(err.response.data);
@@ -42,7 +45,7 @@ export const add = (menuFood: MenuFoodType): ThunkAction<void, RootState, unknow
 
 export const deleteById = (menuFood: MenuFoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await menuFoodsService.deleteById(menuFood.menuId, menuFood.id);
+    await menuFoodsService.deleteById(menuFood.id);
     dispatch(getByMenuId(menuFood.menuId));
   } catch (err: any) {
     toast.error(err.response.data);
