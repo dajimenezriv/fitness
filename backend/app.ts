@@ -21,7 +21,7 @@ if (config.MODE === 'testing') app.use('/api/testing', testingRouter);
 
 app.use('/api/foods', foodsRouter);
 app.use('/api/menus', menusRouter);
-app.use('/api/menus', menuFoodsRouter);
+app.use('/api/menu_foods', menuFoodsRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

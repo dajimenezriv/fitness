@@ -1,3 +1,4 @@
+/* psql -h localhost -d fitness -U postgres */
 /* psql -h localhost -d fitness -U postgres -f db.sql */
 
 DROP TABLE IF EXISTS foods CASCADE;
