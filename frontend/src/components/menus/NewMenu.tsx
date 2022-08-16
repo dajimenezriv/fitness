@@ -9,30 +9,51 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-export default function NewMenu() {
-  const [menu, setMenu] = useState<MenuType>({
-    id: -1,
-    name: '',
-    numberOfMeals: 0,
-  });
+const initMenu = {
+  id: -1,
+  name: '',
+  numberOfMeals: 0,
+};
+
+type params = {
+  fields: {
+    numberOfMeals: string;
+  };
+};
+
+export default function NewMenu({ fields }: params) {
+  const [menu, setMenu] = useState<MenuType>(initMenu);
 
   const dispatch = useAppDispatch();
+
+  const addMenu = () => {
+    dispatch(menusReducer.add(menu));
+    setMenu({ ...initMenu });
+  };
 
   return (
     <TableRow className="NewFood" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell className="Actions">
-        <AddCircleIcon onClick={() => dispatch(menusReducer.add(menu))} />
+        <AddCircleIcon onClick={addMenu} />
       </TableCell>
       <TableCell component="th" scope="row">
-        <input type="text" placeholder="Nuevo Menú" onChange={(e) => setMenu({ ...menu, name: e.target.value })} defaultValue={menu.name} />
+        <input type="text" placeholder="Nuevo Menú" onChange={(e) => setMenu({ ...menu, name: e.target.value })} value={menu.name} />
       </TableCell>
-      <TableCell align="right">
-        <input
-          type="number"
-          onChange={(e) => setMenu({ ...menu, numberOfMeals: parseInt(e.target.value, 10) })}
-          defaultValue={menu.numberOfMeals}
-        />
-      </TableCell>
+      {Object.entries(fields).map(([key, value]) => {
+        const val = menu[key as keyof MenuType];
+        const printVal = val === 0 ? '' : val;
+
+        return (
+          <TableCell key={key} align="right">
+            <input
+              type="number"
+              placeholder={value}
+              onChange={(e) => setMenu({ ...menu, [key]: e.target.value })}
+              value={printVal}
+            />
+          </TableCell>
+        );
+      })}
     </TableRow>
   );
 }

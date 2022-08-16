@@ -9,7 +9,14 @@ import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
-export default function Menu({ menu }: { menu: MenuType }) {
+type params = {
+  menu: MenuType;
+  fields: {
+    numberOfMeals: string;
+  };
+};
+
+export default function Menu({ menu, fields }: params) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -21,7 +28,11 @@ export default function Menu({ menu }: { menu: MenuType }) {
       <TableCell style={{ cursor: 'pointer' }} component="th" scope="row" onClick={() => navigate(`/menus/${menu.id}`)}>
         {menu.name}
       </TableCell>
-      <TableCell align="right">{menu.numberOfMeals}</TableCell>
+      {Object.keys(fields).map((field) => (
+        <TableCell key={`${field}-${menu.id}`} align="right">
+          {menu[field as keyof MenuType]}
+        </TableCell>
+      ))}
     </TableRow>
   );
 }

@@ -44,7 +44,7 @@ export default function Foods() {
   const actions = [{ label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.resetDatabase()) }];
 
   useEffect(() => {
-    dispatch(foodsReducer.refresh());
+    dispatch(foodsReducer.getAll());
   }, []);
 
   return (

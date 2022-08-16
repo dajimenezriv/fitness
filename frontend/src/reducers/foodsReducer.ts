@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 const slice = createSlice({
   name: 'foods',
-  initialState: { processing: false, foods: [] },
+  initialState: { processing: false, foods: [] as FoodType[] },
   reducers: {
     setProcessing(state, { payload }) {
       const processing = payload;
@@ -26,7 +26,7 @@ const slice = createSlice({
 export const { setFoods } = slice.actions;
 export default slice.reducer;
 
-export const refresh = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+export const getAll = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     const res = await foodsService.getAll();
     dispatch(setFoods(res.data));
@@ -38,7 +38,7 @@ export const refresh = (): ThunkAction<void, RootState, unknown, AnyAction> => a
 export const add = (food: FoodType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     await foodsService.add(food);
-    dispatch(refresh());
+    dispatch(getAll());
   } catch (err: any) {
     toast.error(err.response.data);
   }
@@ -47,7 +47,7 @@ export const add = (food: FoodType): ThunkAction<void, RootState, unknown, AnyAc
 export const deleteById = (id: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     await foodsService.deleteById(id);
-    dispatch(refresh());
+    dispatch(getAll());
   } catch (err: any) {
     toast.error(err.response.data);
   }
@@ -56,7 +56,7 @@ export const deleteById = (id: number): ThunkAction<void, RootState, unknown, An
 export const resetDatabase = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     await testingService.resetDB();
-    dispatch(refresh());
+    dispatch(getAll());
   } catch (err: any) {
     toast.error(err.response.data);
   }
