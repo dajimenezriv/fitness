@@ -24,7 +24,7 @@ export default function Food({ food, fields }: params) {
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell>
-        <DeleteIcon onClick={() => dispatch(foodsReducer.deleteById(food.id))} />
+        <DeleteIcon data-cy={`delete_${food.name}`} onClick={() => dispatch(foodsReducer.deleteById(food.id))} />
       </TableCell>
       <TableCell component="th" scope="row">
         {food.name}

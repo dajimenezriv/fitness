@@ -41,10 +41,11 @@ export default function NewFood({ fields }: params) {
   return (
     <TableRow className="NewFood" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell className="Actions">
-        <AddCircleIcon onClick={addFood} />
+        <AddCircleIcon data-cy="add_food" onClick={addFood} />
       </TableCell>
       <TableCell component="th" scope="row">
         <input
+          data-cy="new_name"
           type="text"
           placeholder="Nuevo Alimento"
           onChange={(e) => setFood({ ...food, name: e.target.value })}
@@ -58,6 +59,7 @@ export default function NewFood({ fields }: params) {
         return (
           <TableCell key={key} align="right">
             <input
+              data-cy={`new_${key}`}
               type="number"
               placeholder={value}
               onChange={(e) => setFood({ ...food, [key]: e.target.value })}

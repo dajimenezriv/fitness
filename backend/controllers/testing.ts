@@ -30,4 +30,15 @@ router.get('/', async (request: express.Request, response: express.Response) => 
   }
 });
 
+router.get('/deleteAll', async (request: express.Request, response: express.Response) => {
+  try {
+    menuFoods.deleteAll();
+    menus.deleteAll();
+    foods.deleteAll();
+    response.status(200).send();
+  } catch (err) {
+    response.status(500).send(err);
+  }
+});
+
 module.exports = router;
