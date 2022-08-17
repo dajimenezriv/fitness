@@ -23,7 +23,7 @@ export default function Menu({ menu, fields }: params) {
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell>
-        <DeleteIcon onClick={() => dispatch(menusReducer.deleteById(menu.id))} />
+        <DeleteIcon data-cy={`delete_${menu.name}`} onClick={() => dispatch(menusReducer.deleteById(menu.id))} />
       </TableCell>
       <TableCell style={{ cursor: 'pointer' }} component="th" scope="row" onClick={() => navigate(`/menus/${menu.id}`)}>
         {menu.name}

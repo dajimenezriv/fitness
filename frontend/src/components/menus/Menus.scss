@@ -17,4 +17,37 @@
     color: #2b2b2b;
     cursor: pointer;
   }
+
+  .NewMenu {
+    // cell
+    .MuiTableCell-root {
+      padding: 0;
+
+      // left buttons cell
+      &.Actions {
+        padding: 8px 16px;
+      }
+    }
+
+    input {
+      width: 80%;
+      padding: 8px 16px;
+      border: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    input[type='number'] {
+      text-align: right;
+      -moz-appearance: textfield; /* Firefox */
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
