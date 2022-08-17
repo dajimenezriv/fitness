@@ -55,7 +55,7 @@ export const deleteById = (id: number): ThunkAction<void, RootState, unknown, An
 
 export const resetDatabase = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
-    await testingService.resetDB();
+    await testingService.createTestingDB();
     dispatch(getAll());
   } catch (err: any) {
     toast.error(err.response.data);
