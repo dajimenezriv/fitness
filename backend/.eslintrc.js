@@ -21,17 +21,19 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    '@typescript-eslint/no-explicit-any': 2,
+    indent: 'off',
     'import/no-import-module-exports': 'off',
     'max-len': ['error', { code: 140 }],
+    'operator-linebreak': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'comma-dangle': 'off',
+    'object-curly-newline': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
       {
         js: 'never',
-        jsx: 'never',
         ts: 'never',
-        tsx: 'never',
       },
     ],
   },
