@@ -66,22 +66,35 @@ export default function MenuDetails() {
     meals.push(
       <React.Fragment key={`Meal-${mealNumber}`}>
         <TableRow className="Meal">
-          <TableCell colSpan={tableLength} align="center">{`Comida ${mealNumber}`}</TableCell>
+          <TableCell
+            colSpan={tableLength}
+            align="center">
+            {`Comida ${mealNumber}`}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell />
           <TableCell>Alimento</TableCell>
           {Object.values(fields).map((field) => (
-            <TableCell key={field} align="right">
+            <TableCell
+              key={field}
+              align="right">
               {field}
             </TableCell>
           ))}
         </TableRow>
         {foods.map((menuFood) => (
-          <MenuFood key={menuFood.id} menuFood={menuFood} fields={fields} />
+          <MenuFood
+            key={menuFood.id}
+            menuFood={menuFood}
+            fields={fields}
+          />
         ))}
-        <NewMenuFood tableLength={tableLength} mealNumber={mealNumber} />
-      </React.Fragment>,
+        <NewMenuFood
+          tableLength={tableLength}
+          mealNumber={mealNumber}
+        />
+      </React.Fragment>
     );
   }
 
@@ -90,7 +103,9 @@ export default function MenuDetails() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell colSpan={tableLength} align="center">
+            <TableCell
+              colSpan={tableLength}
+              align="center">
               {menu.name}
             </TableCell>
           </TableRow>
@@ -101,7 +116,9 @@ export default function MenuDetails() {
             <TableCell colSpan={1} />
             <TableCell>Total</TableCell>
             {Object.keys(fields).map((field) => (
-              <TableCell key={`${field}-total`} align="right">
+              <TableCell
+                key={`${field}-total`}
+                align="right">
                 {totals[field]}
               </TableCell>
             ))}

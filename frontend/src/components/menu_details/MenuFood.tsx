@@ -27,11 +27,15 @@ export default function MenuFood({ menuFood, fields }: params) {
       <TableCell>
         <DeleteIcon onClick={() => dispatch(menuFoodsReducer.deleteById(menuFood))} />
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell
+        component="th"
+        scope="row">
         {menuFood.name}
       </TableCell>
       {Object.keys(fields).map((field) => (
-        <TableCell key={`${field}-${menuFood.id}`} align="right">
+        <TableCell
+          key={`${field}-${menuFood.id}`}
+          align="right">
           {menuFood[field as keyof MenuFoodType]}
         </TableCell>
       ))}

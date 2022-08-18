@@ -37,18 +37,28 @@ export default function Food({ food, fields, mealNumber }: ParamsType) {
 
   return (
     <>
-      <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} onClick={() => setOpen(true)}>
-        <TableCell component="th" scope="row">
+      <TableRow
+        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        onClick={() => setOpen(true)}>
+        <TableCell
+          component="th"
+          scope="row">
           {food.name}
         </TableCell>
         {Object.keys(fields).map((field) => (
-          <TableCell key={`${field}-${food.id}`} align="right">
+          <TableCell
+            key={`${field}-${food.id}`}
+            align="right">
             {food[field as keyof FoodType]}
           </TableCell>
         ))}
       </TableRow>
 
-      <Dialog fullWidth maxWidth="xs" open={open} onClose={() => setOpen(false)}>
+      <Dialog
+        fullWidth
+        maxWidth="xs"
+        open={open}
+        onClose={() => setOpen(false)}>
         <DialogContent>
           <TextField
             autoFocus

@@ -24,13 +24,20 @@ export default function Food({ food, fields }: params) {
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell>
-        <DeleteIcon data-cy={`delete_${food.name}`} onClick={() => dispatch(foodsReducer.deleteById(food.id))} />
+        <DeleteIcon
+          data-cy={`delete_${food.name}`}
+          onClick={() => dispatch(foodsReducer.deleteById(food.id))}
+        />
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell
+        component="th"
+        scope="row">
         {food.name}
       </TableCell>
       {Object.keys(fields).map((field) => (
-        <TableCell key={`${field}-${food.id}`} align="right">
+        <TableCell
+          key={`${field}-${food.id}`}
+          align="right">
           {food[field as keyof FoodType]}
         </TableCell>
       ))}

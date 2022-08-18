@@ -24,9 +24,15 @@ export default function FloatingButton({ processing, actions }: { processing: bo
   };
 
   return (
-    <ul className={cn('fab-container', { open })} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
+    <ul
+      className={cn('fab-container', { open })}
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}>
       <li className="fab-button">
-        <img src={floatingButton} alt="floatingButton" />
+        <img
+          src={floatingButton}
+          alt="floatingButton"
+        />
       </li>
       {actions.map((action: actionType, index: number) => (
         <li
@@ -36,9 +42,11 @@ export default function FloatingButton({ processing, actions }: { processing: bo
           className={cn('fab-action', { open }, { processing })}
           key={action.label}
           onClick={() => mouseClick(action)}
-          onKeyDown={() => mouseClick(action)}
-        >
-          <img src={action.image} alt="excel" />
+          onKeyDown={() => mouseClick(action)}>
+          <img
+            src={action.image}
+            alt="excel"
+          />
           <span className="tooltip">{action.label}</span>
         </li>
       ))}

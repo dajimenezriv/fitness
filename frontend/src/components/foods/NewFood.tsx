@@ -39,11 +39,18 @@ export default function NewFood({ fields }: params) {
   };
 
   return (
-    <TableRow className="NewFood" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+    <TableRow
+      className="NewFood"
+      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell className="Actions">
-        <AddCircleIcon data-cy="add_food" onClick={addFood} />
+        <AddCircleIcon
+          data-cy="add_food"
+          onClick={addFood}
+        />
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell
+        component="th"
+        scope="row">
         <input
           data-cy="new_name"
           type="text"
@@ -57,7 +64,9 @@ export default function NewFood({ fields }: params) {
         const printVal = val === 0 ? '' : val;
 
         return (
-          <TableCell key={key} align="right">
+          <TableCell
+            key={key}
+            align="right">
             <input
               data-cy={`new_${key}`}
               type="number"

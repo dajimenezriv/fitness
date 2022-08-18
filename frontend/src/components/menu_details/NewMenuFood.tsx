@@ -28,12 +28,21 @@ export default function NewMenuFood({ tableLength, mealNumber }: paramsType) {
   return (
     <>
       <TableRow>
-        <TableCell colSpan={tableLength} align="center">
-          <AddCircleIcon data-cy="add_menu_food" onClick={() => setOpen(true)} />
+        <TableCell
+          colSpan={tableLength}
+          align="center">
+          <AddCircleIcon
+            data-cy="add_menu_food"
+            onClick={() => setOpen(true)}
+          />
         </TableCell>
       </TableRow>
 
-      <Dialog fullWidth maxWidth="xl" open={open} onClose={() => setOpen(false)}>
+      <Dialog
+        fullWidth
+        maxWidth="xl"
+        open={open}
+        onClose={() => setOpen(false)}>
         <DialogContent>
           <TextField
             autoFocus
@@ -45,7 +54,10 @@ export default function NewMenuFood({ tableLength, mealNumber }: paramsType) {
             onChange={(e) => setName(e.target.value)}
           />
 
-          <Foods foods={foods} mealNumber={mealNumber} />
+          <Foods
+            foods={foods}
+            mealNumber={mealNumber}
+          />
         </DialogContent>
       </Dialog>
     </>

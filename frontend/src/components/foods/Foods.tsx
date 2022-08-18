@@ -49,14 +49,20 @@ export default function Foods() {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ maxHeight: 675 }}>
-        <Table stickyHeader size="small">
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: 675 }}>
+        <Table
+          stickyHeader
+          size="small">
           <TableHead>
             <TableRow>
               <TableCell />
               <TableCell>Alimentos (cada 100g)</TableCell>
               {Object.values(fields).map((field) => (
-                <TableCell key={field} align="right">
+                <TableCell
+                  key={field}
+                  align="right">
                   {field}
                 </TableCell>
               ))}
@@ -64,13 +70,20 @@ export default function Foods() {
           </TableHead>
           <TableBody>
             {foods.map((food) => (
-              <Food key={food.id} food={food} fields={fields} />
+              <Food
+                key={food.id}
+                food={food}
+                fields={fields}
+              />
             ))}
             <NewFood fields={fields} />
           </TableBody>
         </Table>
       </TableContainer>
-      <FloatingButton actions={actions} processing={processing} />
+      <FloatingButton
+        actions={actions}
+        processing={processing}
+      />
     </>
   );
 }

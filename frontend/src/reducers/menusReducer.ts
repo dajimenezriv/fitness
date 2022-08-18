@@ -1,7 +1,5 @@
 // logic
-import {
-  AnyAction, createSlice, ThunkAction,
-} from '@reduxjs/toolkit';
+import { AnyAction, createSlice, ThunkAction } from '@reduxjs/toolkit';
 import * as menusService from 'services/menus';
 import * as testingService from 'services/testing';
 import { MenuType } from 'data_types';
@@ -35,23 +33,27 @@ export const getAll = (): ThunkAction<void, RootState, unknown, AnyAction> => as
   }
 };
 
-export const add = (menu: MenuType): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
-  try {
-    await menusService.add(menu);
-    dispatch(getAll());
-  } catch (err: any) {
-    toast.error(err.response.data);
-  }
-};
+export const add =
+  (menu: MenuType): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    try {
+      await menusService.add(menu);
+      dispatch(getAll());
+    } catch (err: any) {
+      toast.error(err.response.data);
+    }
+  };
 
-export const deleteById = (id: number): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
-  try {
-    await menusService.deleteById(id);
-    dispatch(getAll());
-  } catch (err: any) {
-    toast.error(err.response.data);
-  }
-};
+export const deleteById =
+  (id: number): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    try {
+      await menusService.deleteById(id);
+      dispatch(getAll());
+    } catch (err: any) {
+      toast.error(err.response.data);
+    }
+  };
 
 export const resetDatabase = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {

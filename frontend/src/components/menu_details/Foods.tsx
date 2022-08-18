@@ -27,13 +27,19 @@ type ParamsType = {
 
 export default function Foods({ foods, mealNumber }: ParamsType) {
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 308 }}>
-      <Table stickyHeader size="small">
+    <TableContainer
+      component={Paper}
+      sx={{ maxHeight: 308 }}>
+      <Table
+        stickyHeader
+        size="small">
         <TableHead>
           <TableRow>
             <TableCell>Alimentos (cada 100g)</TableCell>
             {Object.values(fields).map((field) => (
-              <TableCell key={field} align="right">
+              <TableCell
+                key={field}
+                align="right">
                 {field}
               </TableCell>
             ))}
@@ -41,7 +47,12 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
         </TableHead>
         <TableBody>
           {foods.map((food) => (
-            <Food key={food.id} food={food} fields={fields} mealNumber={mealNumber} />
+            <Food
+              key={food.id}
+              food={food}
+              fields={fields}
+              mealNumber={mealNumber}
+            />
           ))}
         </TableBody>
       </Table>

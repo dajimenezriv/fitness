@@ -28,9 +28,16 @@ module.exports = {
     'cypress',
   ],
   rules: {
+    indent: 'off',
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/react-in-jsx-scope': 'off',
     'no-plusplus': 'off',
+    'import/no-unresolved': 'off',
+    'max-len': ['error', { code: 140 }],
+    'react/jsx-closing-bracket-location': 'off',
+    'comma-dangle': 'off',
+    'operator-linebreak': 'off',
+    'implicit-arrow-linebreak': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -41,8 +48,6 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'import/no-unresolved': 'off',
-    'max-len': ['error', { code: 140 }],
   },
   settings: {
     'import/resolver': {

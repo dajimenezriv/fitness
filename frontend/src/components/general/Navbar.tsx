@@ -56,7 +56,13 @@ export default function Navbar() {
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <img alt="icon" src={icon} width="40" height="40" className="Icon" />
+            <img
+              alt="icon"
+              src={icon}
+              width="40"
+              height="40"
+              className="Icon"
+            />
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
@@ -65,8 +71,7 @@ export default function Navbar() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
-                color="inherit"
-              >
+                color="inherit">
                 <MenuIcon />
               </IconButton>
               <Menu
@@ -85,10 +90,11 @@ export default function Navbar() {
                 onClose={handleCloseNavMenu}
                 sx={{
                   display: { xs: 'block', md: 'none' },
-                }}
-              >
+                }}>
                 {Object.entries(pages).map(([title, url]) => (
-                  <MenuItem key={url} onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    key={url}
+                    onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">
                       <Link to={`/${url}`}>{title}</Link>
                     </Typography>
@@ -100,7 +106,9 @@ export default function Navbar() {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <div className="Links">
                 {Object.entries(pages).map(([title, url]) => (
-                  <Button key={url} onClick={handleCloseNavMenu}>
+                  <Button
+                    key={url}
+                    onClick={handleCloseNavMenu}>
                     <Link to={`/${url}`}>{title}</Link>
                   </Button>
                 ))}
@@ -108,8 +116,16 @@ export default function Navbar() {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <img alt="user" src={user} width="40" height="40" className="User" />
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0 }}>
+                <img
+                  alt="user"
+                  src={user}
+                  width="40"
+                  height="40"
+                  className="User"
+                />
               </IconButton>
 
               <Menu
@@ -126,10 +142,11 @@ export default function Navbar() {
                   horizontal: 'right',
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
+                onClose={handleCloseUserMenu}>
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
