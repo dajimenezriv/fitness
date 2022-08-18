@@ -1,7 +1,5 @@
 // logic
-import {
-  BrowserRouter as Router, Navigate, Route, Routes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 
 // gui
 import { ToastContainer } from 'react-toastify';

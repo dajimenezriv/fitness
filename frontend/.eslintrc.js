@@ -38,6 +38,7 @@ module.exports = {
     'comma-dangle': 'off',
     'operator-linebreak': 'off',
     'implicit-arrow-linebreak': 'off',
+    'object-curly-newline': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
