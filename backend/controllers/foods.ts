@@ -18,7 +18,7 @@ const router = express.Router();
 router.get('/', async (request: express.Request, response: express.Response) => {
   try {
     let res;
-    if (request.query.name) res = await foods.search(request.query.name);
+    if (request.query.name) res = await foods.getByName(request.query.name);
     else res = await foods.getAll();
     response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {

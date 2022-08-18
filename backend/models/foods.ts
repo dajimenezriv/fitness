@@ -1,4 +1,5 @@
 export {};
+
 const { Pool } = require('pg');
 const config = require('../utils/config');
 
@@ -42,7 +43,7 @@ const getById = (id: number) =>
     });
   });
 
-const search = (name: string) =>
+const getByName = (name: string) =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM foods WHERE name iLIKE $1', [`%${name}%`], (error: any, result: any) => {
       if (error) reject(error);
@@ -116,7 +117,7 @@ const deleteAll = () =>
 module.exports = {
   getAll,
   getById,
-  search,
+  getByName,
   add,
   update,
   deleteAll,
