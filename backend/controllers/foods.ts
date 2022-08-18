@@ -14,10 +14,12 @@ const router = express.Router();
  *
  */
 
-// show all list of foods
+// show all list of foods or search
 router.get('/', async (request: express.Request, response: express.Response) => {
   try {
-    const res = await foods.getAll();
+    let res;
+    if (request.query.name) res = await foods.search(request.query.name);
+    else res = await foods.getAll();
     response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);

@@ -6,7 +6,7 @@ type Food = {
   id: number;
   name: string;
   market: string;
-  calories: number,
+  calories: number;
   carbs: number;
   proteins: number;
   fats: number;
@@ -39,6 +39,14 @@ const getById = (id: number) =>
     pool.query('SELECT * FROM foods WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows[0]);
+    });
+  });
+
+const search = (name: string) =>
+  new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM foods WHERE name iLIKE $1', [`%${name}%`], (error: any, result: any) => {
+      if (error) reject(error);
+      else resolve(result.rows);
     });
   });
 
@@ -108,6 +116,7 @@ const deleteAll = () =>
 module.exports = {
   getAll,
   getById,
+  search,
   add,
   update,
   deleteAll,

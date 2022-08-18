@@ -20,6 +20,7 @@ import MenuFood from './MenuFood';
 
 // styles
 import './MenuDetails.scss';
+import NewMenuFood from './NewMenuFood';
 
 const fields = {
   quantity: 'Cantidad',
@@ -59,13 +60,13 @@ export default function MenuDetails() {
   });
 
   const meals = [];
-  for (let meal = 0; meal < menu.numberOfMeals; meal++) {
-    const foods = menuFoods.filter((menuFood) => menuFood.mealNumber === meal);
+  for (let mealNumber = 0; mealNumber < menu.numberOfMeals; mealNumber++) {
+    const foods = menuFoods.filter((menuFood) => menuFood.mealNumber === mealNumber);
 
     meals.push(
-      <React.Fragment key={`Meal-${meal}`}>
-        <TableRow>
-          <TableCell colSpan={tableLength} align="center">{`Comida ${meal}`}</TableCell>
+      <React.Fragment key={`Meal-${mealNumber}`}>
+        <TableRow className="Meal">
+          <TableCell colSpan={tableLength} align="center">{`Comida ${mealNumber}`}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell />
@@ -79,6 +80,7 @@ export default function MenuDetails() {
         {foods.map((menuFood) => (
           <MenuFood key={menuFood.id} menuFood={menuFood} fields={fields} />
         ))}
+        <NewMenuFood tableLength={tableLength} mealNumber={mealNumber} />
       </React.Fragment>,
     );
   }
@@ -95,13 +97,9 @@ export default function MenuDetails() {
         </TableHead>
         <TableBody>
           {meals}
-          <TableRow>
-            <TableCell colSpan={tableLength} align="center">
-              Total
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={2} />
+          <TableRow className="Total">
+            <TableCell colSpan={1} />
+            <TableCell>Total</TableCell>
             {Object.keys(fields).map((field) => (
               <TableCell key={`${field}-total`} align="right">
                 {totals[field]}

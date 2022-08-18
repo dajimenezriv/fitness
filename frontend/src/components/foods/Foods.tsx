@@ -49,8 +49,8 @@ export default function Foods() {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table size="small">
+      <TableContainer component={Paper} sx={{ maxHeight: 675 }}>
+        <Table stickyHeader size="small">
           <TableHead>
             <TableRow>
               <TableCell />
