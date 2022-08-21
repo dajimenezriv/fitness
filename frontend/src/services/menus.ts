@@ -1,12 +1,11 @@
-import axios from 'axios';
 import { MenuType } from 'data_types';
-import baseUrl from './helper';
+import { baseUrl, client } from './helper';
 
 const url = `${baseUrl}/menus`;
 
-export const getAll = () => axios.get(url);
-export const getById = (id: number) => axios.get(`${url}/${id}`);
-export const add = (menu: MenuType) => axios.post(url, menu);
-export const update = (menu: MenuType) => axios.put(url, menu);
-export const deleteById = (id: number) => axios.delete(`${url}/${id}`);
-export const deleteAll = () => axios.delete(url);
+export const getAll = () => client().get(url);
+export const getById = (id: number) => client().get(`${url}/${id}`);
+export const add = (menu: MenuType) => client().post(url, menu);
+export const update = (menu: MenuType) => client().put(url, menu);
+export const deleteById = (id: number) => client().delete(`${url}/${id}`);
+export const deleteAll = () => client().delete(url);

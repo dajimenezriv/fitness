@@ -2,14 +2,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as usersService from 'services/users';
+import { UserType } from 'data_types';
 
 // gui
 import { Button } from '@mui/material';
 
 // styles
 import './Profile.scss';
-import axios from 'axios';
-import { UserType } from 'data_types';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ export default function Profile() {
   const logout = async () => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('username');
-    delete axios.defaults.headers.common.Authorization;
     navigate('/login');
   };
 

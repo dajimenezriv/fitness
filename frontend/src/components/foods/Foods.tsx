@@ -1,6 +1,7 @@
 // logic
 import { useEffect } from 'react';
 import * as foodsReducer from 'reducers/foodsReducer';
+import * as testingService from 'services/testing';
 import { useAppDispatch, useAppSelector } from 'hooks/reducer';
 import { FoodType } from 'data_types';
 
@@ -15,6 +16,7 @@ import Paper from '@mui/material/Paper';
 
 // images
 import testing from 'assets/testing.png';
+import login from 'assets/login.png';
 
 // components
 import FloatingButton from 'components/general/FloatingButton';
@@ -41,7 +43,10 @@ export default function Foods() {
 
   const { processing, foods }: stateTypes = useAppSelector((state) => state.foods);
 
-  const actions = [{ label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.resetDatabase()) }];
+  const actions = [
+    { label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.resetDatabase()) },
+    { label: 'Login', image: login, onClick: () => testingService.login() },
+  ];
 
   useEffect(() => {
     dispatch(foodsReducer.getAll());

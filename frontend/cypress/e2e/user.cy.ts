@@ -2,6 +2,8 @@
 
 /* eslint object-curly-newline: off */
 
+//////////////// we cannot access register or login if we are logged
+
 export {};
 
 const baseUrl = 'http://localhost:3000';
@@ -42,6 +44,10 @@ describe('User', () => {
       cy.get('@RegisterButton').click();
 
       cy.url().should('eq', `${baseUrl}/profile`);
+      cy.get('.Profile').contains('user');
+
+      // visiting with urls also works
+      cy.visit(`${baseUrl}/profile`);
       cy.get('.Profile').contains('user');
 
       // logout

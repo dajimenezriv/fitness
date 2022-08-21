@@ -1,13 +1,12 @@
-import axios from 'axios';
 import { UserType } from 'data_types';
-import baseUrl from './helper';
+import { baseUrl, client } from './helper';
 
 const url = `${baseUrl}/users`;
 
-export const getAll = () => axios.get(url);
-export const getById = (id: number) => axios.get(`${url}/${id}`);
-export const getLoggedUser = () => axios.get(`${url}/logged`);
-export const register = (user: UserType) => axios.post(`${url}/register`, user);
-export const login = (user: UserType) => axios.post(`${url}/login`, user);
-export const deleteById = (id: number) => axios.delete(`${url}/${id}`);
-export const deleteAll = () => axios.delete(url);
+export const getAll = () => client().get(url);
+export const getById = (id: number) => client().get(`${url}/${id}`);
+export const getLoggedUser = () => client().get(`${url}/logged`);
+export const register = (user: UserType) => client().post(`${url}/register`, user);
+export const login = (user: UserType) => client().post(`${url}/login`, user);
+export const deleteById = (id: number) => client().delete(`${url}/${id}`);
+export const deleteAll = () => client().delete(url);

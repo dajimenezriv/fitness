@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as usersService from 'services/users';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-
 // gui
 import { Typography, Button, FormControl, TextField, InputAdornment } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -27,7 +25,6 @@ export default function Login() {
       const res = await usersService.login({ username, email: '', password });
       localStorage.setItem('jwtToken', res.data.token);
       localStorage.setItem('username', res.data.username);
-      axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
       return navigate('/profile');
     } catch (err: any) {
       return toast.error(err.response.data);

@@ -3,7 +3,12 @@
 // ids are symbolic
 // they are only use to track the index to add the menuFoods
 
-import { FoodType, MenuType } from 'data_types';
+import { FoodType, MenuType, UserType } from 'data_types';
+
+export const users: UserType[] = [
+  { username: 'admin', email: 'admin@mail.com', password: '1234' },
+  { username: 'user', email: 'user@mail.com', password: '2345' },
+];
 
 export const foods: FoodType[] = [
   { id: 0, name: 'Banana', market: 'Mercadona', calories: 92, carbs: 23, proteins: 12, fats: 0.5 },
