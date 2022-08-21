@@ -1,4 +1,4 @@
-.fab-container {
+.Options {
   display: flex;
   list-style: none;
   margin: 0;
@@ -31,7 +31,7 @@
     }
   }
 
-  .fab-button {
+  .Option {
     border-radius: 50%;
     background-color: #2b2b2b;
     width: 50px;
@@ -42,13 +42,13 @@
     }
   }
 
-  .fab-action {
+  .Action {
     transform: translateY(50px) scale(0);
     transition: transform 300ms, opacity 300ms;
     opacity: 0;
 
     &:hover {
-      .tooltip {
+      .Tooltip {
         transform: translateX(-100%) scale(1);
         opacity: 1;
       }
@@ -59,8 +59,8 @@
       opacity: 1;
     }
 
-    .tooltip {
-      width: 150px;
+    .Tooltip {
+      width: 200px;
       text-align: center;
       padding: 4px 6px;
       font-size: 12px;
