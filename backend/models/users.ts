@@ -68,6 +68,14 @@ const add = (user: UserType) =>
     }
   });
 
+const deleteById = (id: number) =>
+  new Promise((resolve, reject) => {
+    pool.query('DELETE FROM users WHERE id = $1', [id], (error: any, result: any) => {
+      if (error) reject(error);
+      else resolve(result.rows);
+    });
+  });
+
 /*
  *
  * TESTING
@@ -87,5 +95,6 @@ module.exports = {
   getById,
   getByName,
   add,
+  deleteById,
   deleteAll,
 };

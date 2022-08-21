@@ -51,13 +51,13 @@ router.get('/logged', async (request: express.Request, response: express.Respons
 router.post('/register', async (request: express.Request, response: express.Response) => {
   try {
     let user;
-    const { username, password } = request.body;
+    const { username, email, password } = request.body;
     user = await users.getByName(username);
 
     // username doesn't exist
     if (user === undefined) {
       const hash = await bcrypt.hash(password, saltRounds);
-      user = await users.add({ username, password: hash });
+      user = await users.add({ username, email, password: hash });
       const token = await jwt.sign({ user }, config.SECRET_KEY, { expiresIn: '2h' });
       response.status(200).send({ token, username });
     } else {
@@ -84,6 +84,16 @@ router.post('/login', async (request: express.Request, response: express.Respons
     } else {
       response.status(400).send('Bad username or password.');
     }
+  } catch (err) {
+    response.status(500).send(err);
+  }
+});
+
+router.delete('/:id', async (request: express.Request, response: express.Response) => {
+  try {
+    const id = parseInt(request.params.id, 10);
+    const res = await users.deleteById(id);
+    response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
   }
