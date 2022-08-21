@@ -2,6 +2,8 @@
 
 /* eslint object-curly-newline: off */
 
+export {};
+
 const baseUrl = 'http://localhost:3000/foods';
 const apiUrl = 'http://localhost:3001/api';
 

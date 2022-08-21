@@ -1,6 +1,6 @@
 // logic
 import { useState, MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // gui
 import AppBar from '@mui/material/AppBar';
@@ -24,14 +24,18 @@ const pages = { Alimentos: 'foods', Menus: 'menus' };
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+
+  const handleOpenUserMenu = (/* event: MouseEvent<HTMLElement> */) => {
+    navigate('/login');
+    // setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
