@@ -1,9 +1,18 @@
 /* psql -h localhost -d fitness -U postgres */
 /* psql -h localhost -d fitness -U postgres -f db.sql */
 
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS foods CASCADE;
 DROP TABLE IF EXISTS menus CASCADE;
 DROP TABLE IF EXISTS menu_foods CASCADE;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT GENERATED ALWAYS AS IDENTITY,
+  username TEXT NOT NULL,
+  email TEXT NOT NULL,
+  password TEXT NOT NULL,
+  PRIMARY KEY (id)
+);
 
 CREATE TABLE IF NOT EXISTS foods (
   id INT GENERATED ALWAYS AS IDENTITY,
@@ -18,7 +27,7 @@ CREATE TABLE IF NOT EXISTS foods (
 
 CREATE TABLE IF NOT EXISTS menus (
   id INT GENERATED ALWAYS AS IDENTITY,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL UNIQUE,
   number_of_meals INT NOT NULL,
   PRIMARY KEY (id)
 );

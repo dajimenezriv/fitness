@@ -1,4 +1,5 @@
 export {};
+
 const { Pool } = require('pg');
 const config = require('../utils/config');
 
