@@ -1,0 +1,103 @@
+.Search {
+  margin: 20px 20px 0px 20px !important;
+  width: -moz-calc(100% - 40px);
+  width: -webkit-calc(100% - 40px);
+  width: -o-calc(100% - 40px);
+  width: calc(100% - 40px);
+  outline: none !important;
+
+  &.MuiInput-underline:after {
+    border-bottom-color: '#bdbdbd';
+  }
+
+  &.MuiOutlinedInput-root {
+    fieldset: {
+      border-color: '#bdbdbd';
+    }
+    &:hover fieldset {
+      border-color: '#bdbdbd';
+    }
+    &.Mui-focused fieldset {
+      border-color: '#bdbdbd';
+    }
+  }
+}
+
+// table
+.MuiTableContainer-root {
+  margin: 20px;
+  width: auto !important;
+  max-height: 594px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // icons
+  .MuiSvgIcon-root {
+    color: #2b2b2b;
+    cursor: pointer;
+  }
+
+  // header
+  .MuiTableHead-root {
+    background-color: #e3e3e3 !important;
+    position: sticky;
+    top: 0;
+
+    .MuiTableCell-head {
+      padding: 10px 16px;
+      font-weight: bold;
+    }
+  }
+
+  // rows
+  .MuiTableRow-root {
+    &:last-child td,
+    &:last-child th {
+      border: 0;
+    }
+  }
+
+  input[type='text'],
+  input[type='number'] {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+  }
+
+  // add item
+  .NewItem {
+    .MuiTableCell-root {
+      padding: 0;
+
+      // left buttons cell
+      &.Actions {
+        padding: 8px 16px;
+      }
+    }
+
+    input {
+      width: 80%;
+      padding: 8px 16px;
+      border: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    input[type='number'] {
+      text-align: right;
+      -moz-appearance: textfield; /* Firefox */
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}

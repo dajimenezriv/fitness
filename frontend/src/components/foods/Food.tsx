@@ -8,9 +8,9 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-type params = {
+type ParamsType = {
   food: FoodType;
-  fields: {
+  titles: {
     calories: string;
     fats: string;
     carbs: string;
@@ -18,11 +18,11 @@ type params = {
   };
 };
 
-export default function Food({ food, fields }: params) {
+export default function Food({ food, titles }: ParamsType) {
   const dispatch = useAppDispatch();
 
   return (
-    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+    <TableRow>
       <TableCell>
         <DeleteIcon
           data-cy={`delete_${food.name}`}
@@ -34,11 +34,11 @@ export default function Food({ food, fields }: params) {
         scope="row">
         {food.name}
       </TableCell>
-      {Object.keys(fields).map((field) => (
+      {Object.keys(titles).map((key) => (
         <TableCell
-          key={`${field}-${food.id}`}
+          key={`${key}-${food.id}`}
           align="right">
-          {food[field as keyof FoodType]}
+          {food[key as keyof FoodType]}
         </TableCell>
       ))}
     </TableRow>

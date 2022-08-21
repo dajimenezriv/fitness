@@ -33,6 +33,15 @@ export const getAll = (): ThunkAction<void, RootState, unknown, AnyAction> => as
   }
 };
 
+export const getByName = (name: string): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+  try {
+    const res = await foodsService.getByName(name);
+    dispatch(setFoods(res.data));
+  } catch (err: any) {
+    toast.error(err.response.data);
+  }
+};
+
 export const add =
   (food: FoodType): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
@@ -55,7 +64,7 @@ export const deleteById =
     }
   };
 
-export const resetDatabase = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
+export const createTestingDB = (): ThunkAction<void, RootState, unknown, AnyAction> => async (dispatch) => {
   try {
     await testingService.createTestingDB();
     dispatch(getAll());

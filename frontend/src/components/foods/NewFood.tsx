@@ -19,16 +19,14 @@ const initFood = {
   fats: 0,
 };
 
-type params = {
-  fields: {
-    calories: string;
-    fats: string;
-    carbs: string;
-    proteins: string;
-  };
+const placeholders = {
+  calories: '344',
+  fats: '1',
+  carbs: '75',
+  proteins: '8.2',
 };
 
-export default function NewFood({ fields }: params) {
+export default function NewFood() {
   const [food, setFood] = useState<FoodType>(initFood);
 
   const dispatch = useAppDispatch();
@@ -39,9 +37,7 @@ export default function NewFood({ fields }: params) {
   };
 
   return (
-    <TableRow
-      className="NewFood"
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+    <TableRow className="NewItem">
       <TableCell className="Actions">
         <AddCircleIcon
           data-cy="add_food"
@@ -54,12 +50,12 @@ export default function NewFood({ fields }: params) {
         <input
           data-cy="new_name"
           type="text"
-          placeholder="Nuevo Alimento"
+          placeholder="Arroz"
           onChange={(e) => setFood({ ...food, name: e.target.value })}
           value={food.name}
         />
       </TableCell>
-      {Object.entries(fields).map(([key, value]) => {
+      {Object.entries(placeholders).map(([key, value]) => {
         const val = food[key as keyof FoodType];
         const printVal = val === 0 ? '' : val;
 
@@ -70,7 +66,7 @@ export default function NewFood({ fields }: params) {
             <input
               data-cy={`new_${key}`}
               type="number"
-              placeholder={value}
+              placeholder={`${value}g`}
               onChange={(e) => setFood({ ...food, [key]: e.target.value })}
               value={printVal}
             />

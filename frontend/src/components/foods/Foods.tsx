@@ -1,18 +1,13 @@
 // logic
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as foodsReducer from 'reducers/foodsReducer';
 import * as testingService from 'services/testing';
 import { useAppDispatch, useAppSelector } from 'hooks/reducer';
 import { FoodType } from 'data_types';
 
 // gui
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { TextField, Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 // images
 import testing from 'assets/testing.png';
@@ -24,16 +19,46 @@ import Food from './Food';
 import NewFood from './NewFood';
 
 // styles
-import './Foods.scss';
+import 'components/general/Table.scss';
 
-const fields = {
+/*
+
+const CssTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    color: '#bdbdbd',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#bdbdbd',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#bdbdbd',
+    },
+    '&:hover fieldset': {
+      borderColor: '#bdbdbd',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#bdbdbd',
+    },
+  },
+});
+
+*/
+
+const titles = {
   calories: 'Calorías (kcal)',
   fats: 'Grasas (g)',
   carbs: 'Carbohidratos (g)',
   proteins: 'Proteínas (g)',
 };
 
-type stateTypes = {
+const compare = (a: FoodType, b: FoodType) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return 0;
+};
+
+type StateType = {
   processing: boolean;
   foods: FoodType[];
 };
@@ -41,50 +66,65 @@ type stateTypes = {
 export default function Foods() {
   const dispatch = useAppDispatch();
 
-  const { processing, foods }: stateTypes = useAppSelector((state) => state.foods);
+  const [search, setSearch] = useState('');
+
+  const { processing, foods }: StateType = useAppSelector((state) => state.foods);
 
   const actions = [
-    { label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.resetDatabase()) },
+    { label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.createTestingDB()) },
     { label: 'Login', image: login, onClick: () => testingService.login() },
   ];
 
   useEffect(() => {
-    dispatch(foodsReducer.getAll());
-  }, []);
+    dispatch(foodsReducer.getByName(search));
+  }, [search]);
 
   return (
     <>
-      <TableContainer
-        component={Paper}
-        sx={{ maxHeight: 675 }}>
-        <Table
-          stickyHeader
-          size="small">
+      <TextField
+        data-cy="search"
+        className="Search"
+        type="text"
+        variant="outlined"
+        placeholder="Buscar Alimento"
+        onChange={(e) => setSearch(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <TableContainer component={Paper}>
+        <Table size="small">
           <TableHead>
             <TableRow>
               <TableCell />
               <TableCell>Alimentos (cada 100g)</TableCell>
-              {Object.values(fields).map((field) => (
+              {Object.values(titles).map((value) => (
                 <TableCell
-                  key={field}
+                  key={value}
                   align="right">
-                  {field}
+                  {value}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {foods.map((food) => (
+            <NewFood />
+            {[...foods].sort(compare).map((food) => (
               <Food
                 key={food.id}
                 food={food}
-                fields={fields}
+                titles={titles}
               />
             ))}
-            <NewFood fields={fields} />
           </TableBody>
         </Table>
       </TableContainer>
+
       <FloatingButton
         actions={actions}
         processing={processing}
