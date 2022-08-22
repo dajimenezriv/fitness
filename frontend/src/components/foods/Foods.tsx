@@ -10,6 +10,7 @@ import { TextField, Table, TableBody, TableContainer, TableHead, TableRow, Table
 import SearchIcon from '@mui/icons-material/Search';
 
 // images
+import barcode from 'assets/barcode.png';
 import testing from 'assets/testing.png';
 import login from 'assets/login.png';
 
@@ -17,6 +18,7 @@ import login from 'assets/login.png';
 import FloatingButton from 'components/general/FloatingButton';
 import Food from './Food';
 import NewFood from './NewFood';
+import ScannerDialog from './ScannerDialog';
 
 // styles
 import 'components/general/Table.scss';
@@ -67,10 +69,12 @@ export default function Foods() {
   const dispatch = useAppDispatch();
 
   const [search, setSearch] = useState('');
+  const [openScanner, setOpenScanner] = useState(false);
 
   const { processing, foods }: StateType = useAppSelector((state) => state.foods);
 
   const actions = [
+    { label: 'Escanear Código de Barras', image: barcode, onClick: () => setOpenScanner(true) },
     { label: 'Crear Database de Testing', image: testing, onClick: () => dispatch(foodsReducer.createTestingDB()) },
     { label: 'Login', image: login, onClick: () => testingService.login() },
   ];
@@ -81,6 +85,8 @@ export default function Foods() {
 
   return (
     <>
+      <ScannerDialog open={openScanner} setOpen={setOpenScanner} />
+
       <TextField
         data-cy="search"
         className="Search"
@@ -97,7 +103,9 @@ export default function Foods() {
         }}
       />
 
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: '594px' }}>
         <Table size="small">
           <TableHead>
             <TableRow>

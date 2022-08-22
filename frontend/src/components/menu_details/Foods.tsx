@@ -31,7 +31,6 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
       component={Paper}
       sx={{ maxHeight: 308 }}>
       <Table
-        stickyHeader
         size="small">
         <TableHead>
           <TableRow>
