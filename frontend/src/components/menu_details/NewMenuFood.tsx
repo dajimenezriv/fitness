@@ -22,7 +22,7 @@ export default function NewMenuFood({ tableLength, mealNumber }: paramsType) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    foodsService.search(name).then((res) => setFoods(res.data));
+    foodsService.getByName(name).then((res) => setFoods(res.data));
   }, [name]);
 
   return (
