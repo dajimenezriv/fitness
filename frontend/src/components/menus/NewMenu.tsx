@@ -15,13 +15,11 @@ const initMenu = {
   numberOfMeals: 0,
 };
 
-type params = {
-  fields: {
-    numberOfMeals: string;
-  };
+const placeholders = {
+  numberOfMeals: '4',
 };
 
-export default function NewMenu({ fields }: params) {
+export default function NewMenu() {
   const [menu, setMenu] = useState<MenuType>(initMenu);
 
   const dispatch = useAppDispatch();
@@ -32,25 +30,32 @@ export default function NewMenu({ fields }: params) {
   };
 
   return (
-    <TableRow className="NewMenu" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+    <TableRow className="NewItem">
       <TableCell className="Actions">
-        <AddCircleIcon data-cy="add_menu" onClick={addMenu} />
+        <AddCircleIcon
+          data-cy="add_menu"
+          onClick={addMenu}
+        />
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell
+        component="th"
+        scope="row">
         <input
           data-cy="new_name"
           type="text"
-          placeholder="Nuevo Menú"
+          placeholder="Déficit"
           onChange={(e) => setMenu({ ...menu, name: e.target.value })}
           value={menu.name}
         />
       </TableCell>
-      {Object.entries(fields).map(([key, value]) => {
+      {Object.entries(placeholders).map(([key, value]) => {
         const val = menu[key as keyof MenuType];
         const printVal = val === 0 ? '' : val;
 
         return (
-          <TableCell key={key} align="right">
+          <TableCell
+            key={key}
+            align="right">
             <input
               data-cy={`new_${key}`}
               type="number"

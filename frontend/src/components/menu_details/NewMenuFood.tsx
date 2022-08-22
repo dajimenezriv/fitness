@@ -11,12 +11,12 @@ import TableCell from '@mui/material/TableCell';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Foods from './Foods';
 
-type paramsType = {
+type ParamsType = {
   tableLength: number;
   mealNumber: number;
 };
 
-export default function NewMenuFood({ tableLength, mealNumber }: paramsType) {
+export default function NewMenuFood({ tableLength, mealNumber }: ParamsType) {
   const [foods, setFoods] = useState([]);
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);

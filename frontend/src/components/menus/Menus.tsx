@@ -70,7 +70,9 @@ export default function Menus() {
         }}
       />
 
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: '594px' }}>
         <Table size="small">
           <TableHead>
             <TableRow>
