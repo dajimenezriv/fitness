@@ -19,6 +19,7 @@ describe('Foods', () => {
     cy.visit(baseUrl);
 
     // variables
+    cy.get('[data-cy="search"]').as('Search');
     cy.get('[data-cy="add_food"]').as('AddFood');
     cy.get('[data-cy="new_name"]').as('NewName');
     cy.get('[data-cy="new_calories"]').as('NewCalories');
@@ -45,6 +46,13 @@ describe('Foods', () => {
         cy.request('POST', `${apiUrl}/foods`, food);
       });
       cy.visit(baseUrl);
+    });
+
+    it('Search', () => {
+      cy.get('@Search').type('arr');
+      cy.get('html').should('contain', 'Arroz');
+      cy.get('html').should('contain', 'Macarrones');
+      cy.get('html').should('not.contain', 'Banana');
     });
 
     it('Delete', () => {
