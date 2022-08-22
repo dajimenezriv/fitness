@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router-dom';
 
 type params = {
   menu: MenuType;
-  fields: {
+  titles: {
     numberOfMeals: string;
   };
 };
 
-export default function Menu({ menu, fields }: params) {
+export default function Menu({ menu, titles }: params) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -28,9 +28,9 @@ export default function Menu({ menu, fields }: params) {
       <TableCell style={{ cursor: 'pointer' }} component="th" scope="row" onClick={() => navigate(`/menus/${menu.id}`)}>
         {menu.name}
       </TableCell>
-      {Object.keys(fields).map((field) => (
-        <TableCell key={`${field}-${menu.id}`} align="right">
-          {menu[field as keyof MenuType]}
+      {Object.keys(titles).map((key) => (
+        <TableCell key={`${key}-${menu.id}`} align="right">
+          {menu[key as keyof MenuType]}
         </TableCell>
       ))}
     </TableRow>

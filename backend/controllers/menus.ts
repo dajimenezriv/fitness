@@ -14,10 +14,12 @@ const router = express.Router();
  *
  */
 
-// show all menus (simple details)
+// show all list of menus or search
 router.get('/', async (request: express.Request, response: express.Response) => {
   try {
-    const res = await menus.getAll();
+    let res;
+    if (request.query.name) res = await menus.search(request.query.name);
+    else res = await menus.getAll();
     response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
@@ -45,30 +47,10 @@ router.post('/', async (request: express.Request, response: express.Response) =>
   }
 });
 
-// add a food inside a menu
-router.post('/:id', async (request: express.Request, response: express.Response) => {
-  try {
-    const res = await menus.addFood(request.body);
-    response.status(200).send(humps.camelizeKeys(res));
-  } catch (err) {
-    response.status(500).send(err);
-  }
-});
-
 // update simple details of a menu
 router.put('/', async (request: express.Request, response: express.Response) => {
   try {
     const res = await menus.update(request.body);
-    response.status(200).send(humps.camelizeKeys(res));
-  } catch (err) {
-    response.status(500).send(err);
-  }
-});
-
-// update a food inside a menu
-router.put('/:id', async (request: express.Request, response: express.Response) => {
-  try {
-    const res = await menus.updateFood(request.body);
     response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
     response.status(500).send(err);
