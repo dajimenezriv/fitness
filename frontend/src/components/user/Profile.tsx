@@ -15,19 +15,19 @@ export default function Profile() {
 
   const [user, setUser] = useState<null | UserType>(null);
 
-  useEffect(() => {
-    usersService.getLoggedUser()
-      .then((res) => setUser(res.data))
-      .catch(() => navigate('/login'));
-  }, []);
-
-  if (!user) return null;
-
   const logout = async () => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('username');
     navigate('/login');
   };
+
+  useEffect(() => {
+    usersService.getLoggedUser()
+      .then((res) => setUser(res.data))
+      .catch(() => logout());
+  }, []);
+
+  if (!user) return null;
 
   return (
     <div className="Profile">
