@@ -1,5 +1,8 @@
 // logic
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as openFoodFactsService from 'services/openFoodFacts';
+
+// gui
 import { Dialog, DialogContent, TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -16,6 +19,17 @@ type ParamsType = {
 
 export default function ScannerDialog({ open, setOpen }: ParamsType) {
   const [barcode, setBarcode] = useState<string>('');
+
+  useEffect(() => {
+    openFoodFactsService
+      .getByBarcode(barcode)
+      .then((res) => {
+        if (res.data.status_verbose !== 'product found') return;
+        const { nutriments, stores } = res.data.product;
+        console.log(nutriments, stores);
+      })
+      .catch(() => null);
+  }, [barcode]);
 
   return (
     <Dialog
