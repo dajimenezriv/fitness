@@ -1,5 +1,5 @@
 // logic
-import { useState, MouseEvent } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // gui
@@ -9,41 +9,32 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AccountCircle } from '@mui/icons-material';
+
+// images
+import icon from 'assets/icon.png';
+// import user from 'assets/user.jpg';
 
 // styles
-import icon from 'assets/icon.png';
-import user from 'assets/user.jpg';
 import './Navbar.scss';
 
 const pages = { Alimentos: 'foods', Menus: 'menus' };
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function Navbar() {
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const username = localStorage.getItem('username');
 
-  const handleOpenUserMenu = (/* event: MouseEvent<HTMLElement> */) => {
-    navigate('/login');
-    // setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const openProfile = () => {
+    if (username) navigate('/profile');
+    else navigate('/login');
   };
 
   const darkTheme = createTheme({
@@ -74,10 +65,11 @@ export default function Navbar() {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleOpenNavMenu}
+                onClick={(e) => setAnchorElNav(e.currentTarget)}
                 color="inherit">
                 <MenuIcon />
               </IconButton>
+
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
@@ -91,14 +83,14 @@ export default function Navbar() {
                   horizontal: 'left',
                 }}
                 open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
+                onClose={() => setAnchorElNav(null)}
                 sx={{
                   display: { xs: 'block', md: 'none' },
                 }}>
                 {Object.entries(pages).map(([title, url]) => (
                   <MenuItem
                     key={url}
-                    onClick={handleCloseNavMenu}>
+                    onClick={() => setAnchorElNav(null)}>
                     <Typography textAlign="center">
                       <Link to={`/${url}`}>{title}</Link>
                     </Typography>
@@ -112,7 +104,7 @@ export default function Navbar() {
                 {Object.entries(pages).map(([title, url]) => (
                   <Button
                     key={url}
-                    onClick={handleCloseNavMenu}>
+                    onClick={() => setAnchorElNav(null)}>
                     <Link to={`/${url}`}>{title}</Link>
                   </Button>
                 ))}
@@ -121,40 +113,16 @@ export default function Navbar() {
 
             <Box sx={{ flexGrow: 0 }}>
               <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{ p: 0 }}>
-                <img
-                  alt="user"
-                  src={user}
-                  width="40"
-                  height="40"
-                  className="User"
-                />
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={openProfile}
+                color="inherit">
+                <AccountCircle />
               </IconButton>
-
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}>
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+              {' '}
+              {username}
             </Box>
           </Toolbar>
         </Container>
