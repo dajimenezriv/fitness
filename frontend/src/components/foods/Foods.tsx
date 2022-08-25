@@ -89,7 +89,7 @@ export default function Foods() {
 
       <TextField
         data-cy="search"
-        className="Search"
+        className="SearchItem"
         type="text"
         variant="outlined"
         placeholder="Buscar Alimento"
@@ -104,6 +104,7 @@ export default function Foods() {
       />
 
       <TableContainer
+        className="Items"
         component={Paper}
         sx={{ maxHeight: '594px' }}>
         <Table size="small">

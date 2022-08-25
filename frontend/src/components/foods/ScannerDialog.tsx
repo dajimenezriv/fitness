@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 // components
 import Scanner from './Scanner';
+import ProductLabel from './ProductLabel';
 
 // styles
 import './ScannerDialog.scss';
@@ -19,20 +20,22 @@ type ParamsType = {
 
 export default function ScannerDialog({ open, setOpen }: ParamsType) {
   const [barcode, setBarcode] = useState<string>('');
+  const [product, setProduct] = useState<any>(null);
 
   useEffect(() => {
     openFoodFactsService
       .getByBarcode(barcode)
       .then((res) => {
+        setProduct(null);
         if (res.data.status_verbose !== 'product found') return;
-        const { nutriments, stores } = res.data.product;
-        console.log(nutriments, stores);
+        setProduct(res.data.product);
       })
       .catch(() => null);
   }, [barcode]);
 
   return (
     <Dialog
+      className="ScannerDialog"
       maxWidth="xl"
       open={open}
       onClose={() => setOpen(false)}>
@@ -54,12 +57,12 @@ export default function ScannerDialog({ open, setOpen }: ParamsType) {
           }}
         />
 
-        <div className="container">
-          <Scanner
-            open={open}
-            setBarcode={setBarcode}
-          />
-        </div>
+        <Scanner
+          open={open}
+          setBarcode={setBarcode}
+        />
+
+        <ProductLabel product={product} />
       </DialogContent>
     </Dialog>
   );

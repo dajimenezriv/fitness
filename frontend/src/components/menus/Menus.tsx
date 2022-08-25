@@ -56,7 +56,7 @@ export default function Menus() {
     <>
       <TextField
         data-cy="search"
-        className="Search"
+        className="SearchItem"
         type="text"
         variant="outlined"
         placeholder="Buscar Menú"
@@ -71,6 +71,7 @@ export default function Menus() {
       />
 
       <TableContainer
+        className="Items"
         component={Paper}
         sx={{ maxHeight: '594px' }}>
         <Table size="small">
