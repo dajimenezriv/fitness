@@ -1,12 +1,9 @@
-import * as express from 'express';
+import { Request, Response, Router } from 'express';
+import humps from 'humps';
+import * as config from '../utils/config';
+import * as menus from '../models/menus';
 
-export {};
-
-const humps = require('humps');
-const config = require('../utils/config');
-const menus = require('../models/menus');
-
-const router = express.Router();
+const router = Router();
 
 /*
  *
@@ -15,10 +12,10 @@ const router = express.Router();
  */
 
 // show all list of menus or search
-router.get('/', async (request: express.Request, response: express.Response) => {
+router.get('/', async (request: Request, response: Response) => {
   try {
     let res;
-    if (request.query.name) res = await menus.search(request.query.name);
+    if (request.query.name) res = await menus.getByName(request.query.name as string);
     else res = await menus.getAll();
     response.status(200).send(humps.camelizeKeys(res));
   } catch (err) {
@@ -27,7 +24,7 @@ router.get('/', async (request: express.Request, response: express.Response) => 
 });
 
 // show a menu with all its foods
-router.get('/:id', async (request: express.Request, response: express.Response) => {
+router.get('/:id', async (request: Request, response: Response) => {
   try {
     const id = parseInt(request.params.id, 10);
     const res = await menus.getById(id);
@@ -38,7 +35,7 @@ router.get('/:id', async (request: express.Request, response: express.Response) 
 });
 
 // create a menu
-router.post('/', async (request: express.Request, response: express.Response) => {
+router.post('/', async (request: Request, response: Response) => {
   try {
     const res = await menus.add(request.body);
     response.status(200).send(humps.camelizeKeys(res));
@@ -48,7 +45,7 @@ router.post('/', async (request: express.Request, response: express.Response) =>
 });
 
 // update simple details of a menu
-router.put('/', async (request: express.Request, response: express.Response) => {
+router.put('/', async (request: Request, response: Response) => {
   try {
     const res = await menus.update(request.body);
     response.status(200).send(humps.camelizeKeys(res));
@@ -58,7 +55,7 @@ router.put('/', async (request: express.Request, response: express.Response) => 
 });
 
 // delete a menu
-router.delete('/:id', async (request: express.Request, response: express.Response) => {
+router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const id = parseInt(request.params.id, 10);
     const res = await menus.deleteById(id);
@@ -76,7 +73,7 @@ router.delete('/:id', async (request: express.Request, response: express.Respons
 
 if (config.MODE === 'testing') {
   // delete all menus
-  router.delete('/', async (request: express.Request, response: express.Response) => {
+  router.delete('/', async (request: Request, response: Response) => {
     try {
       const res = await menus.deleteAll();
       response.status(200).send(humps.camelizeKeys(res));
@@ -86,4 +83,4 @@ if (config.MODE === 'testing') {
   });
 }
 
-module.exports = router;
+export default router;

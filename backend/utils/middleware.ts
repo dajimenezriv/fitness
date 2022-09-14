@@ -1,10 +1,7 @@
-import * as express from 'express';
-
-export {};
-
-const jwt = require('jsonwebtoken');
-const logger = require('./logger');
-const config = require('../utils/config');
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import * as logger from './logger';
+import * as config from './config';
 
 declare module 'express-session' {
   export interface SessionData {
@@ -12,7 +9,7 @@ declare module 'express-session' {
   }
 }
 
-const postgreSQLHeaders = (request: express.Request, response: express.Response, next: express.NextFunction) => {
+export const postgreSQLHeaders = (request: Request, response: Response, next: NextFunction) => {
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
@@ -21,12 +18,12 @@ const postgreSQLHeaders = (request: express.Request, response: express.Response,
 };
 
 // gets the logged user using the bearer token
-const getUser = (request: express.Request, response: express.Response, next: express.NextFunction) => {
-  request.session.user = null;
+export const getUser = (request: Request, response: Response, next: NextFunction) => {
+  request.session.user = undefined;
   const bearerHeader = request.headers.authorization;
   if (bearerHeader !== undefined) {
     const bearerToken = bearerHeader.split(' ')[1];
-    jwt.verify(bearerToken, config.SECRET_KEY, (err: any, data: any) => {
+    jwt.verify(bearerToken, config.SECRET_KEY as string, (err: any, data: any) => {
       if (!(err || data === undefined)) request.session.user = data.user;
     });
   }
@@ -34,22 +31,15 @@ const getUser = (request: express.Request, response: express.Response, next: exp
   next();
 };
 
-const unknownEndpoint = (request: express.Request, response: express.Response) => {
+export const unknownEndpoint = (request: Request, response: Response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 };
 
-const errorHandler = (error: any, request: express.Request, response: express.Response, next: express.NextFunction) => {
+export const errorHandler = (error: any, request: Request, response: Response, next: NextFunction) => {
   logger.error(error.message);
 
   if (error.name === 'CastError') return response.status(400).send({ error: 'malformatted id' });
   if (error.name === 'ValidationError') return response.status(400).json({ error: error.message });
 
   return next(error);
-};
-
-module.exports = {
-  postgreSQLHeaders,
-  getUser,
-  unknownEndpoint,
-  errorHandler,
 };

@@ -1,25 +1,5 @@
-export {};
-
-const { Pool } = require('pg');
-const config = require('../utils/config');
-
-type Food = {
-  id: number;
-  name: string;
-  market: string;
-  calories: number;
-  carbs: number;
-  proteins: number;
-  fats: number;
-};
-
-const pool = new Pool({
-  user: config.DB_USER,
-  host: config.DB_HOST,
-  database: config.DB_NAME,
-  password: config.DB_PASSWORD,
-  port: config.DB_PORT,
-});
+import { pool } from '../utils/config';
+import { NewFoodType, FoodType } from '../data_types';
 
 /*
  *
@@ -27,7 +7,7 @@ const pool = new Pool({
  *
  */
 
-const getAll = () =>
+export const getAll = (): Promise<FoodType[]> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM foods', (error: any, result: any) => {
       if (error) reject(error);
@@ -35,7 +15,7 @@ const getAll = () =>
     });
   });
 
-const getById = (id: number) =>
+export const getById = (id: number): Promise<FoodType> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM foods WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
       if (error) reject(error);
@@ -43,7 +23,7 @@ const getById = (id: number) =>
     });
   });
 
-const search = (name: string) =>
+export const getByName = (name: string): Promise<FoodType> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM foods WHERE name iLIKE $1', [`%${name}%`], (error: any, result: any) => {
       if (error) reject(error);
@@ -51,16 +31,16 @@ const search = (name: string) =>
     });
   });
 
-const add = (food: Food) =>
+export const add = (food: NewFoodType): Promise<FoodType> =>
   new Promise((resolve, reject) => {
     try {
-      const { name, market, calories, carbs, proteins, fats } = food;
+      const { name, calories, carbs, proteins, fats } = food;
 
       pool.query(
         `INSERT INTO foods 
-      (name, market, calories, carbs, proteins, fats)
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-        [name, market, calories, carbs, proteins, fats],
+      (name, calories, carbs, proteins, fats)
+      VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+        [name, calories, carbs, proteins, fats],
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
@@ -71,17 +51,17 @@ const add = (food: Food) =>
     }
   });
 
-const update = (food: Food) =>
+export const update = (food: FoodType): Promise<FoodType> =>
   new Promise((resolve, reject) => {
     try {
-      const { id, name, market, calories, carbs, proteins, fats } = food;
+      const { id, name, calories, carbs, proteins, fats } = food;
 
       pool.query(
         `UPDATE foods
-      SET name=$2, market=$3, calories=$4, carbs=$5, proteins=$6, fats=$7
+      SET name=$2, calories=$3, carbs=$4, proteins=$5, fats=$6
       WHERE id=$1
       RETURNING *`,
-        [id, name, market, calories, carbs, proteins, fats],
+        [id, name, calories, carbs, proteins, fats],
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
@@ -92,7 +72,7 @@ const update = (food: Food) =>
     }
   });
 
-const deleteById = (id: number) =>
+export const deleteById = (id: number): Promise<number> =>
   new Promise((resolve, reject) => {
     pool.query('DELETE FROM foods WHERE id = $1', [id], (error: any, result: any) => {
       if (error) reject(error);
@@ -106,20 +86,10 @@ const deleteById = (id: number) =>
  *
  */
 
-const deleteAll = () =>
+export const deleteAll = (): Promise<number> =>
   new Promise((resolve, reject) => {
     pool.query('DELETE FROM foods', (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows);
     });
   });
-
-module.exports = {
-  getAll,
-  getById,
-  search,
-  add,
-  update,
-  deleteAll,
-  deleteById,
-};

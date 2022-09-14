@@ -2,18 +2,15 @@
 /* eslint no-unused-vars: off */
 /* eslint @typescript-eslint/no-unused-vars: off */
 
-import * as express from 'express';
+import { Request, Response, Router } from 'express';
+import * as menuFoods from '../models/menuFoods';
+import * as menus from '../models/menus';
+import * as foods from '../models/foods';
+import * as users from '../models/users';
 
-export {};
+const router = Router();
 
-const menuFoods = require('../models/menuFoods');
-const menus = require('../models/menus');
-const foods = require('../models/foods');
-const users = require('../models/users');
-
-const router = express.Router();
-
-router.get('/deleteAll', async (request: express.Request, response: express.Response) => {
+router.get('/deleteAll', async (request: Request, response: Response) => {
   try {
     menuFoods.deleteAll();
     menus.deleteAll();
@@ -25,4 +22,4 @@ router.get('/deleteAll', async (request: express.Request, response: express.Resp
   }
 });
 
-module.exports = router;
+export default router;

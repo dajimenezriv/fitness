@@ -1,14 +1,11 @@
-import * as express from 'express';
+import { Request, Response, Router } from 'express';
+import humps from 'humps';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import * as config from '../utils/config';
+import * as users from '../models/users';
 
-export {};
-
-const humps = require('humps');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const config = require('../utils/config');
-const users = require('../models/users');
-
-const router = express.Router();
+const router = Router();
 const saltRounds = 10;
 
 // now, request.session.user exists
@@ -25,11 +22,10 @@ declare module 'express-session' {
  */
 
 // get users
-router.get('/', async (request: express.Request, response: express.Response) => {
+router.get('/', async (request: Request, response: Response) => {
   try {
     let user;
-    const { name } = request.query;
-    if (name) user = await users.getByName(name);
+    if (request.query.name) user = await users.getByName(request.query.name as string);
     else user = await users.getAll();
     response.status(200).send(humps.camelizeKeys(user));
   } catch (err) {
@@ -38,7 +34,7 @@ router.get('/', async (request: express.Request, response: express.Response) => 
 });
 
 // returns logged user
-router.get('/logged', async (request: express.Request, response: express.Response) => {
+router.get('/logged', async (request: Request, response: Response) => {
   try {
     const { user } = request.session;
     if (user) response.status(200).send(humps.camelizeKeys(user));
@@ -48,7 +44,7 @@ router.get('/logged', async (request: express.Request, response: express.Respons
   }
 });
 
-router.post('/register', async (request: express.Request, response: express.Response) => {
+router.post('/register', async (request: Request, response: Response) => {
   try {
     let user;
     const { username, email, password } = request.body;
@@ -58,7 +54,7 @@ router.post('/register', async (request: express.Request, response: express.Resp
     if (user === undefined) {
       const hash = await bcrypt.hash(password, saltRounds);
       user = await users.add({ username, email, password: hash });
-      const token = await jwt.sign({ user }, config.SECRET_KEY, { expiresIn: '2h' });
+      const token = await jwt.sign({ user }, config.SECRET_KEY as string, { expiresIn: '2h' });
       response.status(200).send({ token, username });
     } else {
       // username exists
@@ -69,7 +65,7 @@ router.post('/register', async (request: express.Request, response: express.Resp
   }
 });
 
-router.post('/login', async (request: express.Request, response: express.Response) => {
+router.post('/login', async (request: Request, response: Response) => {
   try {
     const { username, password } = request.body;
     const user = await users.getByName(username);
@@ -79,7 +75,7 @@ router.post('/login', async (request: express.Request, response: express.Respons
 
     const match = await bcrypt.compare(password, user.password);
     if (match) {
-      const token = await jwt.sign({ user }, config.SECRET_KEY, { expiresIn: '2h' });
+      const token = await jwt.sign({ user }, config.SECRET_KEY as string, { expiresIn: '2h' });
       response.status(200).send({ token, username });
     } else {
       response.status(400).send('Bad username or password.');
@@ -89,7 +85,7 @@ router.post('/login', async (request: express.Request, response: express.Respons
   }
 });
 
-router.delete('/:id', async (request: express.Request, response: express.Response) => {
+router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const id = parseInt(request.params.id, 10);
     const res = await users.deleteById(id);
@@ -107,7 +103,7 @@ router.delete('/:id', async (request: express.Request, response: express.Respons
 
 if (config.MODE === 'testing') {
   // delete all users
-  router.delete('/', async (request: express.Request, response: express.Response) => {
+  router.delete('/', async (request: Request, response: Response) => {
     try {
       const res = await users.deleteAll();
       response.status(200).send(humps.camelizeKeys(res));
@@ -117,4 +113,4 @@ if (config.MODE === 'testing') {
   });
 }
 
-module.exports = router;
+export default router;

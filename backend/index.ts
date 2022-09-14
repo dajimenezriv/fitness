@@ -1,9 +1,7 @@
-export {};
-
-const http = require('http');
-const config = require('./utils/config');
-const logger = require('./utils/logger');
-const app = require('./app');
+import * as http from 'http';
+import * as logger from './utils/logger';
+import * as config from './utils/config';
+import app from './app';
 
 const server = http.createServer(app);
 

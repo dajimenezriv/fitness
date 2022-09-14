@@ -1,21 +1,5 @@
-export {};
-
-const { Pool } = require('pg');
-const config = require('../utils/config');
-
-type Menu = {
-  id: number;
-  name: string;
-  numberOfMeals: number;
-};
-
-const pool = new Pool({
-  user: config.DB_USER,
-  host: config.DB_HOST,
-  database: config.DB_NAME,
-  password: config.DB_PASSWORD,
-  port: config.DB_PORT,
-});
+import { pool } from '../utils/config';
+import { NewMenuType, MenuType } from '../data_types';
 
 /*
  *
@@ -23,7 +7,7 @@ const pool = new Pool({
  *
  */
 
-const getAll = () =>
+export const getAll = (): Promise<MenuType[]> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM menus', (error: any, result: any) => {
       if (error) reject(error);
@@ -31,7 +15,7 @@ const getAll = () =>
     });
   });
 
-const getById = (id: number) =>
+export const getById = (id: number): Promise<MenuType> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM menus WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
       if (error) reject(error);
@@ -39,7 +23,15 @@ const getById = (id: number) =>
     });
   });
 
-const add = (menu: Menu) =>
+export const getByName = (name: string): Promise<MenuType> =>
+  new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM menus WHERE name iLIKE $1', [`%${name}%`], (error: any, result: any) => {
+      if (error) reject(error);
+      else resolve(result.rows);
+    });
+  });
+
+export const add = (menu: NewMenuType): Promise<MenuType> =>
   new Promise((resolve, reject) => {
     try {
       const { name, numberOfMeals } = menu;
@@ -59,7 +51,7 @@ const add = (menu: Menu) =>
     }
   });
 
-const update = (menu: Menu) =>
+export const update = (menu: MenuType): Promise<MenuType> =>
   new Promise((resolve, reject) => {
     try {
       const { id, name, numberOfMeals } = menu;
@@ -80,7 +72,7 @@ const update = (menu: Menu) =>
     }
   });
 
-const deleteById = (id: number) =>
+export const deleteById = (id: number): Promise<number> =>
   new Promise((resolve, reject) => {
     pool.query('DELETE FROM menus WHERE id = $1', [id], (error: any, result: any) => {
       if (error) reject(error);
@@ -94,19 +86,10 @@ const deleteById = (id: number) =>
  *
  */
 
-const deleteAll = () =>
+export const deleteAll = (): Promise<number> =>
   new Promise((resolve, reject) => {
     pool.query('DELETE FROM menus', (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows);
     });
   });
-
-module.exports = {
-  getAll,
-  getById,
-  add,
-  update,
-  deleteById,
-  deleteAll,
-};

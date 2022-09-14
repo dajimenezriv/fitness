@@ -1,22 +1,5 @@
-export {};
-
-const { Pool } = require('pg');
-const config = require('../utils/config');
-
-type UserType = {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-};
-
-const pool = new Pool({
-  user: config.DB_USER,
-  host: config.DB_HOST,
-  database: config.DB_NAME,
-  password: config.DB_PASSWORD,
-  port: config.DB_PORT,
-});
+import { pool } from '../utils/config';
+import { NewUserType, UserType } from '../data_types';
 
 /*
  *
@@ -24,7 +7,7 @@ const pool = new Pool({
  *
  */
 
-const getAll = () =>
+export const getAll = (): Promise<UserType[]> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM users', (error: any, result: any) => {
       if (error) reject(error);
@@ -32,7 +15,7 @@ const getAll = () =>
     });
   });
 
-const getById = (id: number) =>
+export const getById = (id: number): Promise<UserType> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM users WHERE id = $1 LIMIT 1', [id], (error: any, result: any) => {
       if (error) reject(error);
@@ -40,7 +23,7 @@ const getById = (id: number) =>
     });
   });
 
-const getByName = (username: string) =>
+export const getByName = (username: string): Promise<UserType> =>
   new Promise((resolve, reject) => {
     pool.query('SELECT * FROM users WHERE username = $1', [username], (error: any, result: any) => {
       if (error) reject(error);
@@ -48,7 +31,7 @@ const getByName = (username: string) =>
     });
   });
 
-const add = (user: UserType) =>
+export const add = (user: NewUserType): Promise<UserType> =>
   new Promise((resolve, reject) => {
     try {
       const { username, email, password } = user;
@@ -68,7 +51,7 @@ const add = (user: UserType) =>
     }
   });
 
-const deleteById = (id: number) =>
+export const deleteById = (id: number): Promise<number> =>
   new Promise((resolve, reject) => {
     pool.query('DELETE FROM users WHERE id = $1', [id], (error: any, result: any) => {
       if (error) reject(error);
@@ -82,19 +65,10 @@ const deleteById = (id: number) =>
  *
  */
 
-const deleteAll = () =>
+export const deleteAll = (): Promise<number> =>
   new Promise((resolve, reject) => {
     pool.query('DELETE FROM users', (error: any, result: any) => {
       if (error) reject(error);
       else resolve(result.rows);
     });
   });
-
-module.exports = {
-  getAll,
-  getById,
-  getByName,
-  add,
-  deleteById,
-  deleteAll,
-};

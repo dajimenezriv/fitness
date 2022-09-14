@@ -1,14 +1,14 @@
-require('dotenv').config();
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
 
-const { SECRET_KEY, MODE, PORT, DB_HOST, DB_NAME, DB_PORT, DB_USER, DB_PASSWORD } = process.env;
+dotenv.config();
 
-module.exports = {
-  SECRET_KEY,
-  MODE,
-  PORT,
-  DB_HOST,
-  DB_NAME,
-  DB_PORT: parseInt(DB_PORT, 10),
-  DB_USER,
-  DB_PASSWORD,
-};
+export const { SECRET_KEY, MODE, PORT, DB_HOST, DB_NAME, DB_PORT, DB_USER, DB_PASSWORD } = process.env;
+
+export const pool = new Pool({
+  user: DB_USER,
+  host: DB_HOST,
+  database: DB_NAME,
+  password: DB_PASSWORD,
+  port: parseInt(DB_PORT as string, 10),
+});
