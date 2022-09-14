@@ -10,10 +10,13 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'airbnb-base',
+    'airbnb-typescript/base',
   ],
-  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
   },
   plugins: [
     '@typescript-eslint',
@@ -33,7 +36,9 @@ module.exports = {
       'ignorePackages',
       {
         js: 'never',
+        jsx: 'never',
         ts: 'never',
+        tsx: 'never',
       },
     ],
   },
@@ -44,4 +49,5 @@ module.exports = {
       },
     },
   },
+  ignorePatterns: ['.eslintrc.js'],
 };
