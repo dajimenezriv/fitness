@@ -15,6 +15,7 @@ const nutrimentsFields = {
 
 type ParamsType = {
   product: {
+    product_name: string,
     nutriments: any;
     stores: string;
   };
@@ -23,14 +24,14 @@ type ParamsType = {
 export default function ProductLabel({ product }: ParamsType) {
   if (!product) return null;
 
-  const { nutriments, stores } = product;
+  const { product_name: productName, nutriments, stores } = product;
 
   return (
     <TableContainer component={Paper}>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Información nutricional</TableCell>
+            <TableCell>{productName}</TableCell>
             <TableCell>Cada 100g</TableCell>
           </TableRow>
         </TableHead>
