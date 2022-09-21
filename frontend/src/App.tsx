@@ -11,7 +11,7 @@ import Register from 'components/user/Register';
 import Profile from 'components/user/Profile';
 import Foods from 'components/foods/Foods';
 import Menus from 'components/menus/Menus';
-import MenuDetail from 'components/menu_details/MenuDetails';
+import MenuDetails from 'components/menu_details/MenuDetails';
 
 // styles
 import './App.css';
@@ -28,7 +28,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/foods" element={<Foods />} />
           <Route path="/menus" element={<Menus />} />
-          <Route path="/menus/:id" element={<MenuDetail />} />
+          <Route path="/menus/:id" element={<MenuDetails />} />
           <Route path="*" element={<Navigate to="/foods" />} />
         </Routes>
       </Router>

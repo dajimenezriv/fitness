@@ -1,9 +1,13 @@
 // logic
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from 'hooks/reducer';
+import * as foodsReducer from 'reducers/foodsReducer';
 import * as openFoodFactsService from 'services/openFoodFacts';
+import { conversion } from 'nutrients';
+import { NumberDictType } from 'data_types';
 
 // gui
-import { Dialog, DialogContent, TextField, InputAdornment } from '@mui/material';
+import { Dialog, DialogContent, TextField, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 // components
@@ -19,19 +23,38 @@ type ParamsType = {
 };
 
 export default function ScannerDialog({ open, setOpen }: ParamsType) {
+  const dispatch = useAppDispatch();
   const [barcode, setBarcode] = useState<string>('');
-  const [product, setProduct] = useState<any>(null);
+  const [name, setName] = useState<string>('');
+  const [nutrients, setNutrients] = useState<NumberDictType>({});
+  const [stores, setStores] = useState<string>('');
 
   useEffect(() => {
+    if (barcode === '') return;
+
     openFoodFactsService
       .getByBarcode(barcode)
       .then((res) => {
-        setProduct(null);
         if (res.data.status_verbose !== 'product found') return;
-        setProduct(res.data.product);
+
+        const { product } = res.data;
+
+        const conversedNutrients: NumberDictType = {};
+        Object.entries(product.nutriments).forEach(([openFoodFactsVar, value]) => {
+          const nutrient = conversion[openFoodFactsVar];
+          conversedNutrients[nutrient] = value as number;
+        });
+
+        setName(product.product_name);
+        setNutrients(conversedNutrients);
+        setStores(product.stores);
       })
       .catch(() => null);
   }, [barcode]);
+
+  const addProduct = () => {
+    dispatch(foodsReducer.add({ name, nutrients }));
+  };
 
   return (
     <Dialog
@@ -62,7 +85,19 @@ export default function ScannerDialog({ open, setOpen }: ParamsType) {
           setBarcode={setBarcode}
         />
 
-        <ProductLabel product={product} />
+        <ProductLabel
+          name={name}
+          nutrients={nutrients}
+          stores={stores}
+        />
+
+        {name !== '' && (
+          <Button
+            variant="contained"
+            onClick={() => addProduct()}>
+            Añadir producto
+          </Button>
+        )}
       </DialogContent>
     </Dialog>
   );

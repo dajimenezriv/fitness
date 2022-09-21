@@ -19,7 +19,7 @@ export const getByMenuId = (menuId: number): Promise<MenuFoodType[]> =>
       (error: any, result: any) => {
         if (error) reject(error);
         else resolve(result.rows);
-      }
+      },
     );
   });
 
@@ -44,7 +44,7 @@ export const add = (menuFood: NewMenuFoodType): Promise<MenuFoodType> =>
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
-        }
+        },
       );
     } catch (err) {
       reject(err);
@@ -65,7 +65,7 @@ export const update = (menuFood: MenuFoodType): Promise<MenuFoodType> =>
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
-        }
+        },
       );
     } catch (err) {
       reject(err);

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/reducer';
 import { useParams } from 'react-router-dom';
 import * as menusReducer from 'reducers/menusReducer';
 import * as menuFoodsReducer from 'reducers/menuFoodsReducer';
+import { mainNutrients } from 'nutrients';
 
 // gui
 import Table from '@mui/material/Table';
@@ -17,20 +18,13 @@ import Paper from '@mui/material/Paper';
 
 // components
 import MenuFood from './MenuFood';
-
-// styles
-import './MenuDetails.scss';
 import NewMenuFood from './NewMenuFood';
 
-const fields = {
-  quantity: 'Cantidad',
-  calories: 'Calorías (kcal)',
-  fats: 'Grasas (g)',
-  carbs: 'Carbohidratos (g)',
-  proteins: 'Proteínas (g)',
-};
+// styles
+import 'components/general/Table.scss';
+import './MenuDetails.scss';
 
-const tableLength = Object.keys(fields).length + 2;
+const tableLength = mainNutrients.length + 2;
 
 export default function MenuDetails() {
   const params = useParams();
@@ -53,10 +47,10 @@ export default function MenuDetails() {
 
   // totals
   const totals: { [key: string]: number } = {};
-  Object.keys(fields).forEach((field) => {
-    const values = menuFoods.map((menuFood) => menuFood[field as keyof MenuFoodType]);
+  mainNutrients.forEach((nutrient) => {
+    const values = menuFoods.map((menuFood) => menuFood[nutrient as keyof MenuFoodType]);
     const total = values.reduce((a, b) => (a as number) + (b as number), 0);
-    totals[field] = total as number;
+    totals[nutrient] = total as number;
   });
 
   const meals = [];
@@ -75,11 +69,11 @@ export default function MenuDetails() {
         <TableRow>
           <TableCell />
           <TableCell>Alimento</TableCell>
-          {Object.values(fields).map((field) => (
+          {mainNutrients.map((nutrient) => (
             <TableCell
-              key={field}
+              key={nutrient}
               align="right">
-              {field}
+              {nutrient}
             </TableCell>
           ))}
         </TableRow>
@@ -87,7 +81,6 @@ export default function MenuDetails() {
           <MenuFood
             key={menuFood.id}
             menuFood={menuFood}
-            fields={fields}
           />
         ))}
         <NewMenuFood
@@ -99,7 +92,9 @@ export default function MenuDetails() {
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      className="Items"
+      component={Paper}>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -115,11 +110,11 @@ export default function MenuDetails() {
           <TableRow className="Total">
             <TableCell colSpan={1} />
             <TableCell>Total</TableCell>
-            {Object.keys(fields).map((field) => (
+            {mainNutrients.map((nutrient) => (
               <TableCell
-                key={`${field}-total`}
+                key={`${nutrient}-total`}
                 align="right">
-                {totals[field]}
+                {totals[nutrient]}
               </TableCell>
             ))}
           </TableRow>

@@ -44,7 +44,7 @@ export const add = (user: NewUserType): Promise<UserType> =>
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
-        }
+        },
       );
     } catch (err) {
       reject(err);

@@ -25,19 +25,13 @@ export type UserType = {
 
 export type NewFoodType = {
   name: string;
-  calories: number;
-  carbs: number;
-  proteins: number;
-  fats: number;
+  nutrients: any;
 };
 
 export type FoodType = {
   id: number;
   name: string;
-  calories: number;
-  carbs: number;
-  proteins: number;
-  fats: number;
+  nutrients: any;
 };
 
 /*
@@ -47,7 +41,6 @@ export type FoodType = {
  */
 
 export type NewMenuType = {
-  id: number;
   name: string;
   numberOfMeals: number;
 };

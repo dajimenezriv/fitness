@@ -1,7 +1,10 @@
 // logic
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'hooks/reducer';
-import { MenuFoodType } from 'data_types';
+import { FoodType, MenuFoodType, NumberDictType } from 'data_types';
 import * as menuFoodsReducer from 'reducers/menuFoodsReducer';
+import * as foodsService from 'services/foods';
+import { mainNutrients } from 'nutrients';
 
 // gui
 import TableRow from '@mui/material/TableRow';
@@ -10,17 +13,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 type params = {
   menuFood: MenuFoodType;
-  fields: {
-    quantity: string;
-    calories: string;
-    fats: string;
-    carbs: string;
-    proteins: string;
-  };
 };
 
-export default function MenuFood({ menuFood, fields }: params) {
+export default function MenuFood({ menuFood }: params) {
   const dispatch = useAppDispatch();
+  const [food, setFood] = useState<null | FoodType>(null);
+
+  const refreshFood = async () => {
+    const res = await foodsService.getById(menuFood.foodId);
+    setFood(res.data as FoodType);
+  };
+
+  useEffect(() => { refreshFood(); }, []);
+
+  if (!food) return null;
 
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -30,13 +36,13 @@ export default function MenuFood({ menuFood, fields }: params) {
       <TableCell
         component="th"
         scope="row">
-        {menuFood.name}
+        {food.name}
       </TableCell>
-      {Object.keys(fields).map((field) => (
+      {mainNutrients.map((nutrient) => (
         <TableCell
-          key={`${field}-${menuFood.id}`}
+          key={`${nutrient}-${menuFood.id}`}
           align="right">
-          {menuFood[field as keyof MenuFoodType]}
+          {food.nutrients[nutrient as keyof NumberDictType]}
         </TableCell>
       ))}
     </TableRow>

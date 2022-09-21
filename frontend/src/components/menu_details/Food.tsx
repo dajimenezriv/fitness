@@ -1,8 +1,9 @@
 // logic
 import { useState } from 'react';
-import { FoodType } from 'data_types';
+import { FoodType, NumberDictType } from 'data_types';
 import { useAppDispatch } from 'hooks/reducer';
 import * as menuFoodsReducer from 'reducers/menuFoodsReducer';
+import { mainNutrients } from 'nutrients';
 
 // gui
 import TableRow from '@mui/material/TableRow';
@@ -15,16 +16,10 @@ import DialogContent from '@mui/material/DialogContent';
 
 type ParamsType = {
   food: FoodType;
-  fields: {
-    calories: string;
-    fats: string;
-    carbs: string;
-    proteins: string;
-  };
   mealNumber: number;
 };
 
-export default function Food({ food, fields, mealNumber }: ParamsType) {
+export default function Food({ food, mealNumber }: ParamsType) {
   const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState(false);
@@ -45,11 +40,11 @@ export default function Food({ food, fields, mealNumber }: ParamsType) {
           scope="row">
           {food.name}
         </TableCell>
-        {Object.keys(fields).map((field) => (
+        {mainNutrients.map((nutrient) => (
           <TableCell
-            key={`${field}-${food.id}`}
+            key={`${nutrient}-${food.id}`}
             align="right">
-            {food[field as keyof FoodType]}
+            {food.nutrients[nutrient as keyof NumberDictType]}
           </TableCell>
         ))}
       </TableRow>

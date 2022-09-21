@@ -4,6 +4,7 @@ import * as foodsReducer from 'reducers/foodsReducer';
 import * as testingService from 'services/testing';
 import { useAppDispatch, useAppSelector } from 'hooks/reducer';
 import { FoodType } from 'data_types';
+import { mainNutrients, titles } from 'nutrients';
 
 // gui
 import { TextField, Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, InputAdornment } from '@mui/material';
@@ -22,37 +23,6 @@ import ScannerDialog from './ScannerDialog';
 
 // styles
 import 'components/general/Table.scss';
-
-/*
-
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#bdbdbd',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#bdbdbd',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#bdbdbd',
-    },
-    '&:hover fieldset': {
-      borderColor: '#bdbdbd',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#bdbdbd',
-    },
-  },
-});
-
-*/
-
-const titles = {
-  calories: 'Calorías (kcal)',
-  fats: 'Grasas (g)',
-  carbs: 'Carbohidratos (g)',
-  proteins: 'Proteínas (g)',
-};
 
 const compare = (a: FoodType, b: FoodType) => {
   if (a.name < b.name) return -1;
@@ -112,11 +82,11 @@ export default function Foods() {
             <TableRow>
               <TableCell />
               <TableCell>Alimentos (cada 100g)</TableCell>
-              {Object.values(titles).map((value) => (
+              {mainNutrients.map((nutrient) => (
                 <TableCell
-                  key={value}
+                  key={nutrient}
                   align="right">
-                  {value}
+                  {titles[nutrient]}
                 </TableCell>
               ))}
             </TableRow>
@@ -127,7 +97,6 @@ export default function Foods() {
               <Food
                 key={food.id}
                 food={food}
-                titles={titles}
               />
             ))}
           </TableBody>

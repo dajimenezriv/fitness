@@ -77,7 +77,8 @@
     gap: 10px;
     grid-template-areas:
       'top top'
-      'left right';
+      'left right'
+      'bottom bottom';
 
     .MuiFormControl-root {
       grid-area: top;
@@ -108,6 +109,12 @@
 
     .MuiTableContainer-root {
       grid-area: right;
+    }
+
+    .MuiButton-root {
+      grid-area: 'bottom';
+      width: 100%;
+      background-color: black;
     }
   }
 }

@@ -1,7 +1,8 @@
 // logic
 import { useAppDispatch } from 'hooks/reducer';
-import { FoodType } from 'data_types';
+import { FoodType, NumberDictType } from 'data_types';
 import * as foodsReducer from 'reducers/foodsReducer';
+import { mainNutrients } from 'nutrients';
 
 // gui
 import TableRow from '@mui/material/TableRow';
@@ -10,15 +11,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 type ParamsType = {
   food: FoodType;
-  titles: {
-    calories: string;
-    fats: string;
-    carbs: string;
-    proteins: string;
-  };
 };
 
-export default function Food({ food, titles }: ParamsType) {
+export default function Food({ food }: ParamsType) {
   const dispatch = useAppDispatch();
 
   return (
@@ -34,11 +29,11 @@ export default function Food({ food, titles }: ParamsType) {
         scope="row">
         {food.name}
       </TableCell>
-      {Object.keys(titles).map((key) => (
+      {mainNutrients.map((nutrient) => (
         <TableCell
-          key={`${key}-${food.id}`}
+          key={`${nutrient}-${food.id}`}
           align="right">
-          {food[key as keyof FoodType]}
+          {food.nutrients[nutrient as keyof NumberDictType]}
         </TableCell>
       ))}
     </TableRow>

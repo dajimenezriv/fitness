@@ -1,5 +1,6 @@
 // logic
 import { FoodType } from 'data_types';
+import { mainNutrients } from 'nutrients';
 
 // gui
 import Table from '@mui/material/Table';
@@ -13,13 +14,6 @@ import Paper from '@mui/material/Paper';
 // components
 import Food from './Food';
 
-const fields = {
-  calories: 'Calorías (kcal)',
-  fats: 'Grasas (g)',
-  carbs: 'Carbohidratos (g)',
-  proteins: 'Proteínas (g)',
-};
-
 type ParamsType = {
   foods: FoodType[];
   mealNumber: number;
@@ -30,16 +24,15 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
     <TableContainer
       component={Paper}
       sx={{ maxHeight: 308 }}>
-      <Table
-        size="small">
+      <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Alimentos (cada 100g)</TableCell>
-            {Object.values(fields).map((field) => (
+            {mainNutrients.map((nutrient) => (
               <TableCell
-                key={field}
+                key={nutrient}
                 align="right">
-                {field}
+                {nutrient}
               </TableCell>
             ))}
           </TableRow>
@@ -49,7 +42,6 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
             <Food
               key={food.id}
               food={food}
-              fields={fields}
               mealNumber={mealNumber}
             />
           ))}

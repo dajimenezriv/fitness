@@ -44,7 +44,7 @@ export const add = (menu: NewMenuType): Promise<MenuType> =>
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
-        }
+        },
       );
     } catch (err) {
       reject(err);
@@ -65,7 +65,7 @@ export const update = (menu: MenuType): Promise<MenuType> =>
         (error: any, result: any) => {
           if (error) reject(error);
           else resolve(result.rows[0]);
-        }
+        },
       );
     } catch (err) {
       reject(err);

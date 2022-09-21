@@ -8,9 +8,9 @@ const baseUrl = 'http://localhost:3000/foods';
 const apiUrl = 'http://localhost:3001/api';
 
 const foods = [
-  { name: 'Banana', market: 'Mercadona', calories: 92, carbs: 23, proteins: 12, fats: 0.5 },
-  { name: 'Arroz', market: 'Mercadona', calories: 350, carbs: 60, proteins: 6, fats: 0.001 },
-  { name: 'Macarrones', market: 'Mercadona', calories: 186, carbs: 68, proteins: 7, fats: 0.0002 },
+  { name: 'Banana', nutrients: { calories: 92, carbs: 23, proteins: 12, fats: 0.5 } },
+  { name: 'Arroz', nutrients: { calories: 350, carbs: 60, proteins: 6, fats: 0.001 } },
+  { name: 'Macarrones', nutrients: { calories: 186, carbs: 68, proteins: 7, fats: 0.0002 } },
 ];
 
 describe('Foods', () => {
@@ -28,24 +28,28 @@ describe('Foods', () => {
     cy.get('[data-cy="new_proteins"]').as('NewProteins');
   });
 
-  describe('Empty', () => {
-    it('Add', () => {
-      cy.get('@NewName').type('Huevo');
-      cy.get('@NewCalories').type('134');
-      cy.get('@NewFats').type('12');
-      cy.get('@NewCarbs').type('1');
-      cy.get('@NewProteins').type('23');
-      cy.get('@AddFood').click();
-      cy.get('[data-cy="delete_Huevo"]');
-    });
-  });
-
   describe('Test foods', () => {
     beforeEach(() => {
       foods.forEach((food) => {
         cy.request('POST', `${apiUrl}/foods`, food);
       });
       cy.visit(baseUrl);
+    });
+
+    it('Add', () => {
+      cy.get('@NewName').type('Huevo');
+      cy.get('@NewName').should('have.value', 'Huevo');
+
+      cy.get('@NewCalories').type('134');
+      cy.get('@NewFats').type('12');
+      cy.get('@NewCarbs').type('1');
+      cy.get('@NewProteins').type('23');
+      cy.get('@AddFood').click();
+      cy.get('[data-cy="delete_Huevo"]');
+
+      // clear inputs
+      cy.get('@NewName').should('have.value', '');
+      cy.get('@NewCalories').should('have.value', '');
     });
 
     it('Search', () => {

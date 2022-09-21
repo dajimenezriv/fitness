@@ -1,17 +1,51 @@
-export type UserType = {
+export type StringDictType = { [key: string]: string };
+export type NumberDictType = { [key: string]: number };
+
+/*
+ *
+ * USER
+ *
+ */
+
+export type NewUserType = {
   username: string;
-  email: string,
+  email: string;
   password: string;
+};
+
+export type UserType = {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+};
+
+/*
+ *
+ * FOOD
+ *
+ */
+
+export type NewFoodType = {
+  name: string;
+  nutrients: NumberDictType;
 };
 
 export type FoodType = {
   id: number;
   name: string;
-  market: string;
-  calories: number;
-  carbs: number;
-  proteins: number;
-  fats: number;
+  nutrients: NumberDictType;
+};
+
+/*
+ *
+ * MENU
+ *
+ */
+
+export type NewMenuType = {
+  name: string;
+  numberOfMeals: number;
 };
 
 export type MenuType = {
@@ -20,18 +54,23 @@ export type MenuType = {
   numberOfMeals: number;
 };
 
+/*
+ *
+ * MENU FOOD
+ *
+ */
+
+export type NewMenuFoodType = {
+  menuId: number;
+  foodId: number;
+  quantity: number;
+  mealNumber: number;
+};
+
 export type MenuFoodType = {
   id: number;
   menuId: number;
   foodId: number;
   quantity: number;
   mealNumber: number;
-
-  // same as food type
-  name: string;
-  market: string;
-  calories: number;
-  carbs: number;
-  proteins: number;
-  fats: number;
 };

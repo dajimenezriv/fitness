@@ -1,39 +1,25 @@
 // logic
 import { useState } from 'react';
 import { useAppDispatch } from 'hooks/reducer';
-import { FoodType } from 'data_types';
+import { NumberDictType } from 'data_types';
 import * as foodsReducer from 'reducers/foodsReducer';
+import { mainNutrients, titles } from 'nutrients';
 
 // gui
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const initFood = {
-  id: -1,
-  name: '',
-  market: '',
-  calories: 0,
-  carbs: 0,
-  proteins: 0,
-  fats: 0,
-};
-
-const placeholders = {
-  calories: '344',
-  fats: '1',
-  carbs: '75',
-  proteins: '8.2',
-};
-
 export default function NewFood() {
-  const [food, setFood] = useState<FoodType>(initFood);
+  const [name, setName] = useState<string>('');
+  const [nutrients, setNutrients] = useState<NumberDictType>({});
 
   const dispatch = useAppDispatch();
 
   const addFood = () => {
-    dispatch(foodsReducer.add(food));
-    setFood({ ...initFood });
+    dispatch(foodsReducer.add({ name, nutrients }));
+    setName('');
+    setNutrients({});
   };
 
   return (
@@ -50,24 +36,29 @@ export default function NewFood() {
         <input
           data-cy="new_name"
           type="text"
-          placeholder="Arroz"
-          onChange={(e) => setFood({ ...food, name: e.target.value })}
-          value={food.name}
+          placeholder="Nombre del Alimento"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
         />
       </TableCell>
-      {Object.entries(placeholders).map(([key, value]) => {
-        const val = food[key as keyof FoodType];
-        const printVal = val === 0 ? '' : val;
+      {mainNutrients.map((nutrient) => {
+        const val = nutrients[nutrient as keyof NumberDictType];
+        const printVal = (!val || val === 0) ? '' : val;
 
         return (
           <TableCell
-            key={key}
+            key={nutrient}
             align="right">
             <input
-              data-cy={`new_${key}`}
+              data-cy={`new_${nutrient}`}
               type="number"
-              placeholder={`${value}g`}
-              onChange={(e) => setFood({ ...food, [key]: e.target.value })}
+              placeholder={`${titles[nutrient]}`}
+              onChange={(e) =>
+                setNutrients({
+                  ...nutrients,
+                  [nutrient]: parseFloat(e.target.value),
+                })
+              }
               value={printVal}
             />
           </TableCell>

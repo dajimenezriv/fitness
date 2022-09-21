@@ -39,6 +39,7 @@ module.exports = {
     'operator-linebreak': 'off',
     'implicit-arrow-linebreak': 'off',
     'object-curly-newline': 'off',
+    'react/jsx-curly-newline': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

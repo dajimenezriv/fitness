@@ -2,7 +2,7 @@
 import { AnyAction, createSlice, ThunkAction } from '@reduxjs/toolkit';
 import * as foodsService from 'services/foods';
 import * as testingService from 'services/testing';
-import { FoodType } from 'data_types';
+import { FoodType, NewFoodType } from 'data_types';
 import { RootState } from 'store';
 import { toast } from 'react-toastify';
 
@@ -43,7 +43,7 @@ export const getByName = (name: string): ThunkAction<void, RootState, unknown, A
 };
 
 export const add =
-  (food: FoodType): ThunkAction<void, RootState, unknown, AnyAction> =>
+  (food: NewFoodType): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     try {
       await foodsService.add(food);
