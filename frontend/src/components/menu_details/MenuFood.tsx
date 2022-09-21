@@ -9,11 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-type params = {
+type ParamsType = {
   menuFood: MenuFoodType;
 };
 
-export default function MenuFood({ menuFood }: params) {
+export default function MenuFood({ menuFood }: ParamsType) {
   const dispatch = useAppDispatch();
 
   return (
@@ -25,16 +25,20 @@ export default function MenuFood({ menuFood }: params) {
       <TableCell
         component="th"
         scope="row">
-        {menuFood.name}
+        {`${menuFood.name} (${menuFood.quantity}g)`}
       </TableCell>
 
-      {mainNutrients.map((nutrient) => (
-        <TableCell
-          key={`${nutrient}-${menuFood.id}`}
-          align="right">
-          {menuFood.nutrients[nutrient as keyof NumberDictType]}
-        </TableCell>
-      ))}
+      {mainNutrients.map((nutrient) => {
+        const val = menuFood.nutrients[nutrient as keyof NumberDictType];
+
+        return (
+          <TableCell
+            key={`${nutrient}-${menuFood.id}`}
+            align="right">
+            {((val * menuFood.quantity) / 100).toFixed(2)}
+          </TableCell>
+        );
+      })}
     </TableRow>
   );
 }

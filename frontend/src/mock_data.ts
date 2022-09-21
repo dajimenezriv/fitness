@@ -27,7 +27,7 @@ export const menus: MenuType[] = [
 ];
 
 export const menuFoods: NewMenuFoodType[] = [
-  { menuId: 0, foodId: 0, quantity: 125, mealNumber: 0 },
-  { menuId: 0, foodId: 0, quantity: 75, mealNumber: 1 },
-  { menuId: 0, foodId: 1, quantity: 150, mealNumber: 0 },
+  { menuId: 0, foodId: 0, quantity: 100, mealNumber: 0 },
+  { menuId: 0, foodId: 0, quantity: 100, mealNumber: 1 },
+  { menuId: 0, foodId: 1, quantity: 100, mealNumber: 0 },
 ];

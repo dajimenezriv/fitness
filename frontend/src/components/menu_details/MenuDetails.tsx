@@ -47,7 +47,10 @@ export default function MenuDetails() {
   // totals
   const totals: NumberDictType = {};
   mainNutrients.forEach((nutrient) => {
-    const values = menuFoods.map((menuFood) => menuFood.nutrients[nutrient as keyof MenuFoodType]);
+    const values = menuFoods.map((menuFood) => {
+      const value = menuFood.nutrients[nutrient as keyof MenuFoodType];
+      return (value * menuFood.quantity) / 100;
+    });
     const total = values.reduce((a, b) => (a as number) + (b as number), 0);
     totals[nutrient] = total as number;
   });
