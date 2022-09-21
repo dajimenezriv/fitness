@@ -28,6 +28,7 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
         <TableHead>
           <TableRow>
             <TableCell>Alimentos (cada 100g)</TableCell>
+
             {mainNutrients.map((nutrient) => (
               <TableCell
                 key={nutrient}
@@ -37,6 +38,7 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
             ))}
           </TableRow>
         </TableHead>
+
         <TableBody>
           {foods.map((food) => (
             <Food

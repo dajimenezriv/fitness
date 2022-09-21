@@ -26,7 +26,7 @@ export default function Food({ food, mealNumber }: ParamsType) {
   const [quantity, setQuantity] = useState(0);
 
   const save = () => {
-    dispatch(menuFoodsReducer.add(food, quantity, mealNumber));
+    dispatch(menuFoodsReducer.add(food.id, quantity, mealNumber));
     setOpen(false);
   };
 

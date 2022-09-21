@@ -1,7 +1,7 @@
 // logic
 import { AnyAction, createSlice, ThunkAction } from '@reduxjs/toolkit';
 import * as menuFoodsService from 'services/menuFoods';
-import { FoodType, MenuFoodType } from 'data_types';
+import { MenuFoodType, NewMenuFoodType } from 'data_types';
 import { RootState } from 'store';
 import { toast } from 'react-toastify';
 
@@ -40,14 +40,13 @@ export const getByMenuId =
   };
 
 export const add =
-  (food: FoodType, quantity: number, mealNumber: number): ThunkAction<void, RootState, unknown, AnyAction> =>
+  (foodId: number, quantity: number, mealNumber: number): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch, getState) => {
     try {
       const { menuId } = getState().menuFoods;
-      const menuFood: MenuFoodType = {
+      const menuFood: NewMenuFoodType = {
         menuId,
-        foodId: food.id,
-        ...food,
+        foodId,
         quantity,
         mealNumber,
       };

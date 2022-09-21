@@ -1,6 +1,6 @@
 // logic
-import React, { useEffect } from 'react';
-import { MenuFoodType, MenuType } from 'data_types';
+import { useEffect } from 'react';
+import { MenuFoodType, MenuType, NumberDictType } from 'data_types';
 import { useAppDispatch, useAppSelector } from 'hooks/reducer';
 import { useParams } from 'react-router-dom';
 import * as menusReducer from 'reducers/menusReducer';
@@ -17,8 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 // components
-import MenuFood from './MenuFood';
-import NewMenuFood from './NewMenuFood';
+import Meal from './Meal';
 
 // styles
 import 'components/general/Table.scss';
@@ -43,53 +42,15 @@ export default function MenuDetails() {
     dispatch(menuFoodsReducer.getByMenuId(menuId));
   }, []);
 
-  if (!menu) return null;
+  if (!menu || !menuFoods) return null;
 
   // totals
-  const totals: { [key: string]: number } = {};
+  const totals: NumberDictType = {};
   mainNutrients.forEach((nutrient) => {
-    const values = menuFoods.map((menuFood) => menuFood[nutrient as keyof MenuFoodType]);
+    const values = menuFoods.map((menuFood) => menuFood.nutrients[nutrient as keyof MenuFoodType]);
     const total = values.reduce((a, b) => (a as number) + (b as number), 0);
     totals[nutrient] = total as number;
   });
-
-  const meals = [];
-  for (let mealNumber = 0; mealNumber < menu.numberOfMeals; mealNumber++) {
-    const foods = menuFoods.filter((menuFood) => menuFood.mealNumber === mealNumber);
-
-    meals.push(
-      <React.Fragment key={`Meal-${mealNumber}`}>
-        <TableRow className="Meal">
-          <TableCell
-            colSpan={tableLength}
-            align="center">
-            {`Comida ${mealNumber}`}
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell />
-          <TableCell>Alimento</TableCell>
-          {mainNutrients.map((nutrient) => (
-            <TableCell
-              key={nutrient}
-              align="right">
-              {nutrient}
-            </TableCell>
-          ))}
-        </TableRow>
-        {foods.map((menuFood) => (
-          <MenuFood
-            key={menuFood.id}
-            menuFood={menuFood}
-          />
-        ))}
-        <NewMenuFood
-          tableLength={tableLength}
-          mealNumber={mealNumber}
-        />
-      </React.Fragment>
-    );
-  }
 
   return (
     <TableContainer
@@ -106,15 +67,28 @@ export default function MenuDetails() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {meals}
+          {Array.from(Array(3).keys()).map((mealNumber) => {
+            const mealFoods = menuFoods.filter((menuFood) => menuFood.mealNumber === mealNumber);
+
+            return (
+              <Meal
+                key={`Meal-${mealNumber}`}
+                tableLength={tableLength}
+                mealNumber={mealNumber}
+                mealFoods={mealFoods}
+              />
+            );
+          })}
+
           <TableRow className="Total">
             <TableCell colSpan={1} />
             <TableCell>Total</TableCell>
+
             {mainNutrients.map((nutrient) => (
               <TableCell
                 key={`${nutrient}-total`}
                 align="right">
-                {totals[nutrient]}
+                {totals[nutrient].toFixed(2)}
               </TableCell>
             ))}
           </TableRow>

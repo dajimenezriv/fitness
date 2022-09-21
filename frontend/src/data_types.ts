@@ -73,4 +73,8 @@ export type MenuFoodType = {
   foodId: number;
   quantity: number;
   mealNumber: number;
+
+  // copied from foodtype
+  name: string,
+  nutrients: NumberDictType,
 };
