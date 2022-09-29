@@ -26,6 +26,7 @@ export default function FoodsDialog({ open, setOpen, mealNumber }: ParamsType) {
 
   return (
     <Dialog
+      data-cy="dialog_menu_food"
       fullWidth
       maxWidth="xl"
       open={open}
@@ -34,7 +35,7 @@ export default function FoodsDialog({ open, setOpen, mealNumber }: ParamsType) {
         <TextField
           autoFocus
           margin="dense"
-          label="Alimento"
+          label={`Alimento para comida ${mealNumber + 1}`}
           type="text"
           fullWidth
           variant="standard"

@@ -33,6 +33,7 @@ export default function Food({ food, mealNumber }: ParamsType) {
   return (
     <>
       <TableRow
+        data-cy={`food-${food.name}`}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         onClick={() => setOpen(true)}>
         <TableCell
@@ -40,6 +41,7 @@ export default function Food({ food, mealNumber }: ParamsType) {
           scope="row">
           {food.name}
         </TableCell>
+
         {mainNutrients.map((nutrient) => (
           <TableCell
             key={`${nutrient}-${food.id}`}
@@ -56,6 +58,7 @@ export default function Food({ food, mealNumber }: ParamsType) {
         onClose={() => setOpen(false)}>
         <DialogContent>
           <TextField
+            data-cy="quantity"
             autoFocus
             margin="dense"
             label="Cantidad"
@@ -68,9 +71,18 @@ export default function Food({ food, mealNumber }: ParamsType) {
             }}
           />
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
-          <Button onClick={save}>Guardar</Button>
+          <Button
+            data-cy="cancel_menu_food"
+            onClick={() => setOpen(false)}>
+            Cancelar
+          </Button>
+          <Button
+            data-cy="save_menu_food"
+            onClick={save}>
+            Guardar
+          </Button>
         </DialogActions>
       </Dialog>
     </>

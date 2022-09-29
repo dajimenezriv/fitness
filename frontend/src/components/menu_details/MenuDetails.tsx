@@ -70,7 +70,7 @@ export default function MenuDetails() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.from(Array(3).keys()).map((mealNumber) => {
+          {Array.from(Array(menu.numberOfMeals).keys()).map((mealNumber) => {
             const mealFoods = menuFoods.filter((menuFood) => menuFood.mealNumber === mealNumber);
 
             return (
@@ -91,7 +91,7 @@ export default function MenuDetails() {
               <TableCell
                 key={`${nutrient}-total`}
                 align="right">
-                {totals[nutrient].toFixed(2)}
+                {`${totals[nutrient].toFixed(2)} g`}
               </TableCell>
             ))}
           </TableRow>

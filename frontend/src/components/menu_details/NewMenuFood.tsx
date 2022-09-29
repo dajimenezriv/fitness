@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 // components
-import FoodsDialog from './scanner_food/FoodsDialog';
+import FoodsDialog from './food_picker/FoodsDialog';
 
 type ParamsType = {
   tableLength: number;

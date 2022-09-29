@@ -1,6 +1,6 @@
 // logic
 import { FoodType } from 'data_types';
-import { mainNutrients } from 'nutrients';
+import { mainNutrients, titles } from 'nutrients';
 
 // gui
 import Table from '@mui/material/Table';
@@ -22,6 +22,7 @@ type ParamsType = {
 export default function Foods({ foods, mealNumber }: ParamsType) {
   return (
     <TableContainer
+      className="Items"
       component={Paper}
       sx={{ maxHeight: 308 }}>
       <Table size="small">
@@ -33,7 +34,7 @@ export default function Foods({ foods, mealNumber }: ParamsType) {
               <TableCell
                 key={nutrient}
                 align="right">
-                {nutrient}
+                {titles[nutrient]}
               </TableCell>
             ))}
           </TableRow>
