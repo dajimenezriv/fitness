@@ -29,6 +29,7 @@ module.exports = {
   ],
   rules: {
     indent: 'off',
+    'linebreak-style': ['error', 'windows'],
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/react-in-jsx-scope': 'off',
     'no-plusplus': 'off',

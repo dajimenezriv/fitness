@@ -25,6 +25,7 @@ module.exports = {
   ],
   rules: {
     indent: 'off',
+    'linebreak-style': ['error', 'windows'],
     'import/no-import-module-exports': 'off',
     'max-len': ['error', { code: 140 }],
     'operator-linebreak': 'off',

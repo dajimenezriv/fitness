@@ -13,7 +13,7 @@ Create a .env in the backend folder.
 
 .env
 ```
-SECRET_KEY='<SECRET_KEY>'
+SECRET_KEY='fitness'
 
 # testing/production
 MODE='testing'
